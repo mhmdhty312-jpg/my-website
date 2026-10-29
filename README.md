@@ -1,1028 +1,319 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mlk♕alhm - تطبيق ملك الهم الرسمي</title>
-    <meta name="description" content="موقع وتطبيق ملك الهم mlk♕alhm يضم إطار متوهج، ألعاب، الآلة الحاسبة السرية، وتطبيقات مميزة.">
-    <meta name="keywords" content="mlk♕alhm, ملك الهم, تطبيق ملك الهم, فري فاير">
-    <!-- استدعاء مكتبة تأثير التفتيت -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), 
-                        url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') no-repeat center center fixed;
-            background-size: cover;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-            padding: 15px;
-            text-align: center;
-            overflow: hidden;
-        }
-
-        /* القائمة العلوية */
-        .top-nav {
-            display: flex;
-            gap: 40px;
-            font-size: 16px;
-            margin-top: 5px;
-            z-index: 10;
-        }
-
-        .top-nav span {
-            opacity: 0.6;
-            cursor: pointer;
-            transition: opacity 0.3s;
-        }
-
-        .top-nav span.active {
-            opacity: 1;
-            font-weight: bold;
-            border-bottom: 2px solid white;
-            padding-bottom: 4px;
-        }
-
-        /* حاوية الشاشات */
-        .tab-content {
-            display: none;
-            width: 100%;
-            height: calc(100vh - 60px);
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-
-        .tab-content.active {
-            display: flex;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.98); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        /* --- محتوى تبويب "اكتشاف" --- */
-        .discovery-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            flex: 1;
-            width: 100%;
-        }
-
-        /* === حاوية المربع الذي يدور حوله اللون المتوهج === */
-        .glow-border-box {
-            position: relative;
-            width: 280px;
-            padding: 3px; /* سمك الإطار المتوهج */
-            border-radius: 18px;
-            overflow: hidden;
-            cursor: pointer;
-            margin-bottom: 20px;
-            transition: transform 0.3s, opacity 0.3s;
-        }
-
-        /* الطبقة الدوارة التي تصنع التوهج المتحرك حول النص */
-        .glow-border-box::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, #00ffcc, #ff00ff, #00ffcc, transparent 40%);
-            animation: rotateGlow 1s linear infinite;
-        }
-
-        @keyframes rotateGlow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* محتوى المربع الداخلي الثابت (النص) */
-        .glow-content {
-            position: relative;
-            background: rgba(15, 15, 15, 0.95);
-            padding: 15px 20px;
-            border-radius: 16px;
-            font-size: 15px;
-            font-weight: bold;
-            color: #00ffcc;
-            z-index: 1;
-            text-align: center;
-        }
-
-        /* تأثير التفتيت والاختفاء عند الضغط */
-        .glow-border-box.shattering {
-            animation: shatterEffect 0.6s forwards !important;
-            pointer-events: none;
-        }
-
-        @keyframes shatterEffect {
-            0% { transform: scale(1) rotate(0deg); opacity: 1; filter: blur(0); }
-            50% { transform: scale(1.4) rotate(45deg) skew(15deg, 15deg); opacity: 0.5; filter: blur(2px); }
-            100% { transform: scale(0) rotate(180deg) translate(40px, -40px); opacity: 0; filter: blur(8px); }
-        }
-
-        .phone-mockup {
-            background-color: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            width: 220px;
-            height: 240px;
-            border-radius: 30px;
-            position: relative;
-            margin: 5px auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .floating-icon {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 16px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        .icon-1 { background-color: #ff5252; top: -15px; right: 40px; }
-        .icon-2 { background-color: #ff5252; bottom: 20px; right: 20px; }
-        .icon-3 { background-color: #2979ff; bottom: 40px; left: 30px; }
-        .icon-4 { background-color: #4caf50; top: 30px; left: 20px; }
-
-        .content h1 {
-            font-size: 22px;
-            margin-bottom: 6px;
-            font-weight: 700;
-        }
-
-        .content p {
-            font-size: 12px;
-            opacity: 0.9;
-            max-width: 280px;
-            margin: 0 auto 8px auto;
-            line-height: 1.3;
-        }
-
-        .terms {
-            font-size: 10px;
-            opacity: 0.7;
-            margin-bottom: 10px;
-        }
-
-        .terms a {
-            color: white;
-            text-decoration: underline;
-        }
-
-        /* --- محتوى تبويب "شخصي" --- */
-        .personal-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex: 1;
-            width: 100%;
-            padding-top: 10px;
-        }
-
-        .apps-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 12px 8px;
-            width: 100%;
-            max-width: 380px;
-            margin: auto 0;
-            padding: 0 5px;
-        }
-
-        .app-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .app-item:hover {
-            transform: scale(1.08);
-        }
-
-        .app-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 14px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 22px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            margin-bottom: 4px;
-            position: relative;
-        }
-
-        .app-name {
-            font-size: 10px;
-            opacity: 0.9;
-            text-align: center;
-            max-width: 55px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        /* الأيقونات والتصميمات */
-        .app-galaxy { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
-        .app-meta { background: linear-gradient(135deg, #667eea, #764ba2); }
-        .app-vpn { background: linear-gradient(135deg, #00c6ff, #0072ff); }
-        .app-happy { background: linear-gradient(135deg, #84fab0, #8fd3f4); color: #000; }
-        .app-gaming { background: linear-gradient(135deg, #fa709a, #fee140); }
-        .app-msg1 { background: #0084ff; }
-        .app-radio { background: #e0e0e0; color: #333; }
-        .app-calc { background: linear-gradient(135deg, #11998e, #38ef7d); cursor: pointer; }
-        .app-studio { background: linear-gradient(135deg, #ff9a9e, #fecfef); }
-        .app-xender { background: linear-gradient(135deg, #ff758c, #ff7eb3); }
-        .app-keyboard { background: #1b5e20; }
-        .app-phone { background: #00e676; }
-        .app-camera { background: #424242; }
-        .app-settings { background: #616161; }
-        .app-msg2 { background: #2979ff; }
-        .app-capcut { background: #000; border: 1px solid rgba(255,255,255,0.3); }
-        .app-tiktok { background: #111; position: relative; }
-        .app-tiktok::after {
-            content: '99';
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            background: #ff3b30;
-            color: white;
-            font-size: 9px;
-            padding: 1px 4px;
-            border-radius: 8px;
-        }
-        .app-files { background: linear-gradient(135deg, #f6d365, #fda085); }
-        .app-music { background: linear-gradient(135deg, #ff9966, #ff5e62); cursor: pointer; }
-
-        /* شريط البحث السفلي */
-        .search-bar {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            width: 100%;
-            max-width: 360px;
-            padding: 12px 20px;
-            border-radius: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-        }
-
-        .search-bar span {
-            font-size: 13px;
-            opacity: 0.8;
-        }
-
-        .btn-container {
-            width: 100%;
-            max-width: 380px;
-            margin-bottom: 10px;
-        }
-
-        .main-btn {
-            background: linear-gradient(135deg, #007aff, #00c6ff);
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 14px;
-            border-radius: 30px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.4);
-        }
-
-        /* --- نافذة الآلة الحاسبة --- */
-        #calculator-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .calc-box {
-            background: #1e1e1e;
-            width: 300px;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-            border: 1px solid #333;
-        }
-
-        .calc-screen {
-            width: 100%;
-            height: 60px;
-            background: #111;
-            color: #fff;
-            font-size: 26px;
-            text-align: left;
-            padding: 10px 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            overflow-x: auto;
-            border: 1px solid #444;
-        }
-
-        .calc-buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-
-        .calc-btn {
-            background: #333;
-            color: white;
-            border: none;
-            padding: 15px;
-            font-size: 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .calc-btn:hover { background: #444; }
-        .calc-btn.op { background: #ff9500; }
-        .calc-btn.op:hover { background: #e08500; }
-        .calc-btn.action { background: #a6a6a6; color: black; }
-        .calc-btn.action:hover { background: #888; }
-        .calc-btn.vault-trigger { background: #11998e; grid-column: span 2; font-size: 14px; font-weight: bold; }
-
-        /* --- نافذة بصمة الجهاز --- */
-        #vault-login-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px);
-            z-index: 150;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .vault-login-box {
-            background: #222;
-            width: 320px;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-            border: 1px solid #444;
-            text-align: center;
-        }
-
-        .vault-login-box h3 {
-            color: #38ef7d;
-            margin-bottom: 10px;
-            font-size: 18px;
-        }
-
-        .vault-login-box p {
-            font-size: 12px;
-            color: #ccc;
-            margin-bottom: 20px;
-        }
-
-        .fingerprint-scanner {
-            margin: 15px auto;
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: rgba(56, 239, 125, 0.15);
-            border: 2px solid #38ef7d;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 32px;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(56, 239, 125, 0.3);
-            transition: transform 0.2s;
-        }
-
-        .fingerprint-scanner:hover {
-            transform: scale(1.08);
-        }
-
-        .vault-btn-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .vault-action-btn {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .btn-cancel { background: #ff3b30; color: white; }
-
-        /* --- واجهة الخزنة --- */
-        #secret-vault-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            z-index: 200;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            padding: 20px;
-            overflow-y: auto;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .vault-box {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            width: 100%;
-            max-width: 380px;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .vault-box h2 {
-            color: #00ffcc;
-            font-size: 20px;
-            margin-bottom: 5px;
-        }
-
-        .vault-section {
-            margin-top: 15px;
-            text-align: right;
-            background: rgba(0,0,0,0.2);
-            padding: 12px;
-            border-radius: 12px;
-        }
-
-        .vault-section h4 {
-            color: #ffcc00;
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-
-        .vault-input-small {
-            width: 100%;
-            padding: 8px;
-            font-size: 13px;
-            background: rgba(0,0,0,0.4);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 8px;
-            margin-bottom: 8px;
-        }
-
-        .vault-add-btn {
-            background: #00ffcc;
-            color: black;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 12px;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        .hidden-list {
-            max-height: 100px;
-            overflow-y: auto;
-            margin-top: 8px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .hidden-item {
-            background: rgba(255,255,255,0.1);
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .delete-item {
-            color: #ff3b30;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .hidden-images-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-            margin-top: 8px;
-            max-height: 120px;
-            overflow-y: auto;
-        }
-
-        .hidden-img-card {
-            position: relative;
-            width: 100%;
-            height: 60px;
-            border-radius: 6px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-
-        .hidden-img-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .close-vault-btn {
-            background: #ff3b30;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 15px;
-            width: 100%;
-        }
-
-        /* --- نافذة مشغل الموسيقى --- */
-        #music-player-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(15px);
-            z-index: 100;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .music-box {
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            width: 100%;
-            max-width: 360px;
-            border-radius: 25px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .music-box h2 {
-            font-size: 20px;
-            margin-bottom: 5px;
-            color: #ffcc00;
-        }
-
-        .bot-subtitle {
-            font-size: 12px;
-            opacity: 0.8;
-            margin-bottom: 15px;
-        }
-
-        .playlist {
-            width: 100%;
-            max-height: 230px;
-            overflow-y: auto;
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .song-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 12px 15px;
-            border-radius: 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 1px solid transparent;
-        }
-
-        .song-item:hover, .song-item.playing {
-            background: rgba(255, 140, 0, 0.3);
-            border-color: #ff8c00;
-        }
-
-        .song-info {
-            text-align: right;
-        }
-
-        .song-title {
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .song-artist {
-            font-size: 11px;
-            color: #00ffcc;
-        }
-
-        .close-music-btn {
-            background: linear-gradient(135deg, #ff416c, #ff4b2b);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            width: 100%;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07111c">
+<title>MLK RADIO - اتصال صوتي</title>
+<style>
+:root{
+ --bg:#07111c;--panel:#102131;--green:#42f5a6;
+ --blue:#47c8ff;--text:#eff8ff;--muted:#92aaba;
+ --red:#ff536c;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;background:radial-gradient(ellipse at top,#193d4d,transparent 55%),var(--bg);
+ color:var(--text);font-family:Arial,Tahoma,sans-serif;min-height:100vh
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{max-width:480px;margin:auto;padding:18px 15px 30px}
+header{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:48px;height:48px;display:grid;place-items:center;
+ border-radius:15px;background:#42f5a615;border:1px solid #42f5a155;font-size:25px}
+h1{font-size:19px;margin:0}
+h1 span{color:var(--green)}
+.sub{font-size:11px;color:var(--muted);margin-top:5px}
+.status{font-size:10px;color:var(--muted)}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#e6b45d;margin-left:5px}
+.dot.on{background:var(--green);box-shadow:0 0 9px var(--green)}
+.banner{margin:20px 0;padding:12px;border-radius:12px;
+ border:1px solid #47c8ff35;background:#47c8ff0b;
+ font-size:12px;line-height:1.8;color:#b9d9eb}
+.card{background:linear-gradient(145deg,#122535,#0c1925);
+ border:1px solid #ffffff13;border-radius:18px;padding:16px;margin-top:13px}
+.kicker{font-size:11px;color:var(--green)}
+h2{font-size:16px;margin:7px 0}
+label{display:block;color:#b5c9d6;font-size:12px;margin:15px 0 8px}
+input{width:100%;background:#07131e;color:white;border:1px solid #ffffff20;
+ border-radius:10px;padding:13px;outline:none}
+input:focus{border-color:var(--green)}
+input::placeholder{color:#607989}
+.ltr{direction:ltr;text-align:center}
+.row{display:flex;gap:8px;align-items:center}
+.row input{flex:1;min-width:0}
+.btn{border:1px solid transparent;border-radius:10px;padding:12px;font-size:12px;font-weight:bold}
+.primary{background:linear-gradient(120deg,#2cda91,#6bffc2);color:#05271a}
+.ghost{background:#ffffff09;color:white;border-color:#ffffff20}
+.secondary{background:#47c8ff0d;color:#9ce2ff;border-color:#47c8ff45}
+.danger{background:#ff536c15;color:#ff8b9b;border-color:#ff536c55}
+.full{width:100%;margin-top:12px}
+.hint{font-size:11px;color:var(--muted);line-height:1.8}
+.identity{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px}
+.serial{font-size:29px;letter-spacing:3px;direction:ltr;color:var(--green);margin-top:8px}
+.radio{text-align:center}
+.visual{width:165px;height:165px;margin:15px auto;position:relative;display:grid;place-items:center}
+.ring{position:absolute;inset:0;border:1px solid #42f5a135;border-radius:50%}
+.ring.two{inset:14px;border-color:#42f5a155}
+.core{width:105px;height:105px;border-radius:50%;display:grid;place-items:center;
+ font-size:40px;background:radial-gradient(circle at 35% 25%,#276452,#102a32);
+ border:2px solid #42f5a177;box-shadow:0 0 25px #42f5a11a}
+.radio.active .ring.one{animation:pulse 1.4s infinite}
+@keyframes pulse{0%{transform:scale(.85);opacity:1}100%{transform:scale(1.18);opacity:0}}
+.ptt{width:140px;height:140px;border-radius:50%;border:5px solid #ffffff20;
+ background:linear-gradient(145deg,#39e99b,#0da66b);color:#05271a;
+ display:flex;flex-direction:column;justify-content:center;align-items:center;
+ gap:7px;margin:18px auto 12px;touch-action:none;user-select:none}
+.ptt span{font-size:27px}.ptt b{font-size:14px}.ptt small{font-size:10px}
+.ptt.talking{background:linear-gradient(145deg,#ff7589,#d52b4b);color:white}
+button:disabled{opacity:.4;cursor:not-allowed}
+.contacts{display:grid;gap:8px;margin-top:12px}
+.contact{display:flex;align-items:center;gap:9px;padding:10px;
+ border:1px solid #ffffff12;border-radius:12px}
+.avatar{width:38px;height:38px;border-radius:12px;background:#47c8ff18;
+ display:grid;place-items:center}
+.info{flex:1;min-width:0}.name{font-size:13px;font-weight:bold}
+.cid{font-size:11px;color:var(--muted);direction:ltr;text-align:right;margin-top:5px}
+.empty{text-align:center;color:var(--muted);font-size:12px;padding:16px}
+footer{text-align:center;color:#637e90;font-size:10px;margin-top:24px;line-height:2}
+dialog{background:#102131;color:white;border:1px solid #42f5a155;
+ border-radius:18px;max-width:350px;width:90%;text-align:center;padding:22px}
+dialog::backdrop{background:#000b}
+</style>
 </head>
 <body>
+<main class="app">
+<header>
+ <div class="brand">
+  <div class="logo">📡</div>
+  <div><h1>MLK <span>RADIO</span></h1><div class="sub">شبكة الاتصال الصوتي</div></div>
+ </div>
+ <div class="status"><i class="dot" id="dot"></i><span id="status">غير متصل</span></div>
+</header>
 
-    <!-- القائمة العلوية -->
-    <div class="top-nav">
-        <span id="nav-personal" onclick="switchTab('personal')">شخصي</span>
-        <span id="nav-discovery" class="active" onclick="switchTab('discovery')">اكتشاف</span>
-    </div>
+<div class="banner">
+ 📡 جهاز لاسلكي رقمي — اتصل بالأصدقاء عبر الإنترنت باستخدام الصوت الحقيقي.
+ يتطلب تشغيل الخادم وإعداد HTTPS للسماح بالميكروفون.
+</div>
 
-    <!-- تبويب اكتشاف -->
-    <div id="tab-discovery" class="tab-content active">
-        <div class="discovery-container">
-            
-            <!-- مربع النص المحاط بإطار متوهج يدور حول نفسه كل ثانية -->
-            <div id="shatterBox" class="glow-border-box" onclick="shatterAndExplode(event)">
-                <div class="glow-content">
-                    ✨ الإطار المتوهج يدور، والنص ثابت! ✨
-                </div>
-            </div>
+<section class="card">
+ <div class="kicker">هويتك الرقمية</div>
+ <div class="identity">
+  <div><div class="sub">رقمك التسلسلي</div><div class="serial" id="myId">--------</div></div>
+  <button class="btn ghost" id="copy">نسخ الرقم</button>
+ </div>
+ <p class="hint">شارك رقمك مع الشخص الذي تريد الاتصال به.</p>
+</section>
 
-            <div class="phone-mockup">
-                <div class="floating-icon icon-1">🛍️</div>
-                <div class="floating-icon icon-2">📷</div>
-                <div class="floating-icon icon-3">✈️</div>
-                <div class="floating-icon icon-4">👤</div>
-            </div>
+<section class="card">
+ <div class="kicker">اتصال مباشر</div><h2>من تريد الاتصال به؟</h2>
+ <label for="target">الرقم التسلسلي للشخص</label>
+ <div class="row">
+  <input id="target" class="ltr" maxlength="8" inputmode="numeric" placeholder="12345678">
+  <button class="btn primary" id="call">اتصال</button>
+ </div>
+ <p class="hint" id="message">يجب أن يكون الشخص الآخر متصلًا بالموقع.</p>
+</section>
 
-            <div class="content">
-                <h1>مرحباً بك في التطبيق</h1>
-                <p>احصل على التطبيقات التي تتوافق مع اهتماماتك واحتياجاتك بسهولة.</p>
-                <div class="terms">
-                    للمتابعة، اقرأ <a href="#">بنود وشروط</a> ووافق عليها.
-                </div>
-            </div>
-        </div>
+<section class="card radio" id="radio">
+ <div class="kicker">جهاز التحدث</div>
+ <div class="visual"><div class="ring one"></div><div class="ring two"></div>
+  <div class="core">🎙️</div></div>
+ <h2 id="radioTitle">جاهز للاتصال</h2>
+ <p class="hint" id="radioSub">اتصل بشخص أولًا</p>
+ <button id="ptt" class="ptt" disabled>
+  <span>🎙️</span><b>اضغط للتحدث</b><small>اترك الزر لإيقاف الصوت</small>
+ </button>
+ <button class="btn danger" id="hangup" disabled>إنهاء الاتصال</button>
+ <p class="hint">يُرسل الميكروفون الصوت فقط أثناء الضغط على زر التحدث.</p>
+</section>
 
-        <div class="btn-container">
-            <button class="main-btn" onclick="switchTab('personal')">أوافق (عرض شخصي)</button>
-        </div>
-    </div>
+<section class="card">
+ <div class="kicker">دفتر الأرقام</div><h2>جهات الاتصال</h2>
+ <label for="personName">اسم الشخص</label>
+ <input id="personName" maxlength="35" placeholder="اسم الصديق">
+ <label for="personId">الرقم التسلسلي</label>
+ <input id="personId" class="ltr" maxlength="8" inputmode="numeric" placeholder="8 أرقام">
+ <button class="btn secondary full" id="add">＋ حفظ جهة الاتصال</button>
+ <div id="contacts" class="contacts"></div>
+</section>
+<footer>MLK RADIO · نسخة ويب أولية<br>لا تستخدمه للطوارئ</footer>
+</main>
 
-    <!-- تبويب شخصي -->
-    <div id="tab-personal" class="tab-content">
-        <div class="personal-container">
-            <div class="apps-grid">
-                <div class="app-item"><div class="app-icon app-galaxy">🌌</div><span class="app-name">My Galaxy</span></div>
-                <div class="app-item"><div class="app-icon app-meta">🟣</div><span class="app-name">Meta AI</span></div>
-                <div class="app-item"><div class="app-icon app-vpn">🌐</div><span class="app-name">Max VPN</span></div>
-                <div class="app-item"><div class="app-icon app-happy">👾</div><span class="app-name">HappyMod</span></div>
-                <div class="app-item"><div class="app-icon app-gaming">🎮</div><span class="app-name">Gaming Hub</span></div>
+<dialog id="incoming">
+ <div style="font-size:35px">📡</div><h2>اتصال وارد</h2>
+ <p>المستخدم <b id="caller"></b> يريد التحدث معك.</p>
+ <div class="row"><button class="btn ghost" id="decline">رفض</button>
+ <button class="btn primary" id="accept">قبول الاتصال</button></div>
+</dialog>
 
-                <div class="app-item"><div class="app-icon app-msg1">💬</div><span class="app-name">الرسائل</span></div>
-                <div class="app-item"><div class="app-icon app-radio">📻</div><span class="app-name">الراديو</span></div>
-                <div class="app-item" onclick="openCalculator()"><div class="app-icon app-calc">🔢</div><span class="app-name">الحاسبة</span></div>
-                <div class="app-item"><div class="app-icon app-studio">🌸</div><span class="app-name">الاستوديو</span></div>
-                <div class="app-item"><div class="app-icon app-xender">✖️</div><span class="app-name">Xender</span></div>
+<audio id="remoteAudio" autoplay playsinline></audio>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+/*
+  هذا الملف يحتاج إلى server.js من المشروع.
+  فتحه كملف منفرد لن ينشئ خادم اتصال صوتي.
+*/
+const $=id=>document.getElementById(id);
+const socket=io();
+let myId="", pc=null, stream=null, peer="", incoming=null;
+let contacts=[];
+try{contacts=JSON.parse(localStorage.getItem("mlk_contacts")||"[]")}catch{}
 
-                <div class="app-item"><div class="app-icon app-keyboard">⌨️</div><span class="app-name">لوحة المفاتيح</span></div>
-                <div class="app-item"><div class="app-icon app-phone">📞</div><span class="app-name">الهاتف</span></div>
-                <div class="app-item"><div class="app-icon app-camera">📷</div><span class="app-name">الكاميرا</span></div>
-                <div class="app-item"><div class="app-icon app-settings">⚙️</div><span class="app-name">الضبط</span></div>
-                <div class="app-item"><div class="app-icon app-msg2">🔵</div><span class="app-name">الرسائل</span></div>
+const rtcConfig={iceServers:[
+ {urls:"stun:stun.l.google.com:19302"}
+ // أضف TURN server موثوقًا عند النشر لتحسين الاتصال خلف بعض الشبكات.
+]};
+function status(t,ok=false){$("status").textContent=t;$("dot").classList.toggle("on",ok)}
+function message(t){$("message").textContent=t}
+function radio(t,s){$("radioTitle").textContent=t;$("radioSub").textContent=s}
+function drawContacts(){
+ const box=$("contacts");box.replaceChildren();
+ if(!contacts.length){const e=document.createElement("div");e.className="empty";e.textContent="لا توجد جهات اتصال محفوظة.";box.append(e);return}
+ contacts.forEach(c=>{
+  const row=document.createElement("div");row.className="contact";
+  const av=document.createElement("div");av.className="avatar";av.textContent="👤";
+  const info=document.createElement("div");info.className="info";
+  const name=document.createElement("div");name.className="name";name.textContent=c.name;
+  const id=document.createElement("div");id.className="cid";id.textContent=c.id;
+  info.append(name,id);
+  const call=document.createElement("button");call.className="btn secondary";call.textContent="اتصال";
+  call.onclick=()=>{$("target").value=c.id;startCall(c.id)};
+  const del=document.createElement("button");del.className="btn ghost";del.textContent="×";
+  del.onclick=()=>{contacts=contacts.filter(x=>x.id!==c.id);saveContacts();drawContacts()};
+  row.append(av,info,call,del);box.append(row);
+ });
+}
+function saveContacts(){localStorage.setItem("mlk_contacts",JSON.stringify(contacts))}
+async function microphone(){
+ if(!navigator.mediaDevices?.getUserMedia)throw Error("الميكروفون يحتاج إلى HTTPS أو localhost.");
+ if(!stream){
+  stream=await navigator.mediaDevices.getUserMedia({audio:{
+   echoCancellation:true,noiseSuppression:true,autoGainControl:true},video:false});
+  stream.getAudioTracks().forEach(t=>t.enabled=false);
+ }
+ return stream;
+}
+async function makePeer(target){
+ pc=new RTCPeerConnection(rtcConfig);
+ const s=await microphone();
+ s.getTracks().forEach(t=>pc.addTrack(t,s));
+ pc.onicecandidate=e=>{if(e.candidate)socket.emit("ice-candidate",{target,candidate:e.candidate})};
+ pc.ontrack=e=>{$("remoteAudio").srcObject=e.streams[0];$("remoteAudio").play().catch(()=>message("المس الشاشة لتشغيل الصوت الوارد."))};
+ pc.onconnectionstatechange=()=>{
+  if(!pc)return;
+  if(pc.connectionState==="connected"){
+   peer=target;$("ptt").disabled=false;$("hangup").disabled=false;
+   radio("متصل الآن","رقم الطرف الآخر: "+target);message("تم ربط الصوت الحقيقي.");
+  }
+  if(["failed","closed"].includes(pc.connectionState))endCall(false,"انقطع الاتصال. تحقق من الشبكة وTURN.");
+ };
+ return pc;
+}
+async function startCall(target){
+ if(!/^\d{8}$/.test(target))return alert("أدخل رقمًا من 8 أرقام.");
+ if(target===myId)return alert("لا يمكنك الاتصال بنفسك.");
+ if(!socket.connected)return alert("خادم الإشارات غير متصل.");
+ if(pc)return alert("أنه الاتصال الحالي أولًا.");
+ try{
+  peer=target;message("جارٍ طلب إذن الميكروفون...");
+  await makePeer(target);
+  const offer=await pc.createOffer();
+  await pc.setLocalDescription(offer);
+  socket.emit("call-user",{target,offer:pc.localDescription});
+  radio("جارٍ الاتصال...", "في انتظار قبول الطرف الآخر");
+  message("تم إرسال طلب الاتصال.");
+ }catch(e){endCall(false,"تعذر الاتصال: "+e.message);alert(e.message)}
+}
+async function acceptCall(){
+ if(!incoming)return;
+ const data=incoming;
+ try{
+  peer=data.from;
+  await makePeer(data.from);
+  await pc.setRemoteDescription(new RTCSessionDescription(data.offer));
+  const answer=await pc.createAnswer();
+  await pc.setLocalDescription(answer);
+  socket.emit("call-answer",{target:data.from,answer:pc.localDescription});
+  incoming=null;$("incoming").close();
+  radio("جارٍ ربط الصوت...","مع الرقم: "+peer);
+ }catch(e){endCall(false,e.message);alert(e.message)}
+}
+function stopTalking(){
+ if(stream)stream.getAudioTracks().forEach(t=>t.enabled=false);
+ $("ptt").classList.remove("talking");$("radio").classList.remove("active");
+ if(pc&&peer)radio("متصل الآن","رقم الطرف الآخر: "+peer);
+}
+async function startTalking(e){
+ e.preventDefault();
+ if(!pc||pc.connectionState!=="connected"){message("انتظر حتى يكتمل اتصال الصوت.");return}
+ try{
+  await microphone();
+  stream.getAudioTracks().forEach(t=>t.enabled=true);
+  $("ptt").classList.add("talking");$("radio").classList.add("active");
+  radio("أنت تتحدث الآن","اترك الزر لإيقاف إرسال الصوت");
+ }catch(e){alert("تعذر تشغيل الميكروفون: "+e.message)}
+}
+function endCall(notify=true,text="تم إنهاء الاتصال."){
+ if(notify&&peer)socket.emit("hangup",{target:peer});
+ stopTalking();
+ if(pc){pc.onicecandidate=null;pc.close()}
+ pc=null;peer="";
+ if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}
+ $("remoteAudio").srcObject=null;
+ $("ptt").disabled=true;$("hangup").disabled=true;
+ $("radio").classList.remove("active");
+ radio("جاهز للاتصال","اتصل بشخص أولًا");message(text);
+}
+socket.on("connect",()=>status("متصل بالخادم",true));
+socket.on("disconnect",()=>{status("انقطع الاتصال",false);if(pc)endCall(false,"انقطع اتصال الخادم.")});
+socket.on("registered",d=>{myId=d.serial;$("myId").textContent=myId});
+socket.on("online-count",n=>{});
+socket.on("call-error",message);
+socket.on("incoming-call",d=>{
+ if(pc){socket.emit("hangup",{target:d.from});return}
+ incoming=d;$("caller").textContent=d.from;$("incoming").showModal();
+});
+socket.on("call-answered",async d=>{
+ if(!pc||d.from!==peer)return;
+ try{await pc.setRemoteDescription(new RTCSessionDescription(d.answer))}
+ catch(e){endCall(false,"تعذر إكمال الاتصال: "+e.message)}
+});
+socket.on("ice-candidate",async d=>{
+ if(!pc||d.from!==peer)return;
+ try{await pc.addIceCandidate(new RTCIceCandidate(d.candidate))}catch(e){console.warn(e)}
+});
+socket.on("peer-hangup",d=>{if(d.from===peer)endCall(false,"أنهى الطرف الآخر الاتصال.")});
+socket.on("user-offline",d=>{if(d.serial===peer)endCall(false,"غادر الطرف الآخر الموقع.")});
 
-                <div class="app-item"><div class="app-icon app-capcut">✂️</div><span class="app-name">CapCut</span></div>
-                <div class="app-item"><div class="app-icon app-tiktok">🎵</div><span class="app-name">TikTok</span></div>
-                <div class="app-item"><div class="app-icon app-files">📁</div><span class="app-name">ملفاتي</span></div>
-                <div class="app-item" onclick="openMusicPlayer()"><div class="app-icon app-music">🎶</div><span class="app-name">مشغل الموسيقى</span></div>
-            </div>
-        </div>
-
-        <div class="search-bar">
-            <span>بحث...</span>
-            <span>⋮</span>
-        </div>
-    </div>
-
-    <!-- نافذة الآلة الحاسبة -->
-    <div id="calculator-modal">
-        <div class="calc-box">
-            <div id="calc-display" class="calc-screen">0</div>
-            <div class="calc-buttons">
-                <button class="calc-btn action" onclick="clearCalc()">C</button>
-                <button class="calc-btn action" onclick="appendCalc('%')">%</button>
-                <button class="calc-btn op" onclick="appendCalc('/')">/</button>
-                <button class="calc-btn op" onclick="appendCalc('*')">×</button>
-                
-                <button class="calc-btn" onclick="appendCalc('7')">7</button>
-                <button class="calc-btn" onclick="appendCalc('8')">8</button>
-                <button class="calc-btn" onclick="appendCalc('9')">9</button>
-                <button class="calc-btn op" onclick="appendCalc('-')">-</button>
-                
-                <button class="calc-btn" onclick="appendCalc('4')">4</button>
-                <button class="calc-btn" onclick="appendCalc('5')">5</button>
-                <button class="calc-btn" onclick="appendCalc('6')">6</button>
-                <button class="calc-btn op" onclick="appendCalc('+')">+</button>
-                
-                <button class="calc-btn" onclick="appendCalc('1')">1</button>
-                <button class="calc-btn" onclick="appendCalc('2')">2</button>
-                <button class="calc-btn" onclick="appendCalc('3')">3</button>
-                <button class="calc-btn op" onclick="calculateResult()">=</button>
-                
-                <button class="calc-btn" onclick="appendCalc('0')">0</button>
-                <button class="calc-btn" onclick="appendCalc('.')">.</button>
-                <button class="calc-btn vault-trigger" onclick="openVaultLogin()">🔒 الخزنة</button>
-                
-                <button class="calc-btn action" onclick="closeCalculator()" style="grid-column: span 4; background:#ff3b30; color:white; margin-top:5px;">إغلاق الحاسبة</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- نافذة بصمة الجهاز -->
-    <div id="vault-login-modal">
-        <div class="vault-login-box">
-            <h3>🔐 قفل بصمة الجهاز</h3>
-            <p>انقر أدناه لمسح بصمة الإصبع</p>
-            <div class="fingerprint-scanner" onclick="authenticateDeviceFingerprint()">👆</div>
-            <div class="vault-btn-group">
-                <button class="vault-action-btn btn-cancel" onclick="closeVaultLogin()">إلغاء</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- واجهة الخزنة -->
-    <div id="secret-vault-modal">
-        <div class="vault-box">
-            <h2>🛡️ خزنة ملك الهم الآمنة</h2>
-            <p style="font-size: 11px; opacity: 0.8; margin-bottom: 10px;">تم التحقق من بصمتك بنجاح</p>
-
-            <div class="vault-section">
-                <h4>📱 التطبيقات المخفية</h4>
-                <input type="text" id="app-name-input" class="vault-input-small" placeholder="اسم التطبيق...">
-                <button class="vault-add-btn" onclick="hideApp()">إخفاء تطبيق</button>
-                <div id="hidden-apps-list" class="hidden-list"></div>
-            </div>
-
-            <div class="vault-section">
-                <h4>🖼️ الصور المخفية</h4>
-                <input type="text" id="img-url-input" class="vault-input-small" placeholder="رابط الصورة...">
-                <button class="vault-add-btn" onclick="hideImage()">إخفاء صورة</button>
-                <div id="hidden-images-list" class="hidden-images-grid"></div>
-            </div>
-
-            <button class="close-vault-btn" onclick="closeVault()">قفل الخزنة</button>
-        </div>
-    </div>
-
-    <!-- مشغل الموسيقى -->
-    <div id="music-player-modal">
-        <div class="music-box">
-            <h2>👑 ملك الهم البوت</h2>
-            <div class="bot-subtitle">أغاني ملك الهم وحماس فري فاير</div>
-            <div class="playlist">
-                <div class="song-item" onclick="playSong('أغنية ملك الهم الأسطوري', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', this)">
-                    <div class="song-info">
-                        <div class="song-title">👑 ملك الهم الأسطوري</div>
-                        <div class="song-artist">ملك الهم البوت</div>
-                    </div>
-                    <span>▶️</span>
-                </div>
-            </div>
-            <button class="close-music-btn" onclick="closeMusicPlayer()" style="background:#ff5e62;">إغلاق المشغل</button>
-        </div>
-    </div>
-
-    <audio id="audio-player"></audio>
-
-    <script>
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.top-nav span').forEach(el => el.classList.remove('active'));
-
-            if (tabName === 'personal') {
-                document.getElementById('tab-personal').classList.add('active');
-                document.getElementById('nav-personal').classList.add('active');
-            } else {
-                document.getElementById('tab-discovery').classList.add('active');
-                document.getElementById('nav-discovery').classList.add('active');
-            }
-        }
-
-        /* دالة تفتيت المربع وتوليد تأثير الأجزاء المتناثرة عند الضغط */
-        function shatterAndExplode(event) {
-            const box = document.getElementById('shatterBox');
-            box.classList.add('shattering');
-
-            // إطلاق تأثير تكسير وانفجار الأجزاء
-            confetti({
-                particleCount: 80,
-                spread: 70,
-                origin: { y: 0.3 }
-            });
-
-            // إخفاء العنصر نهائياً بعد انتهاء مدة التفتيت
-            setTimeout(() => {
-                box.style.display = 'none';
-            }, 600);
-        }
-
-        /* دوال الآلة الحاسبة والخزنة والبصمة */
-        let calcDisplay = document.getElementById('calc-display');
-        let currentInput = "0";
-
-        function openCalculator() {
-            document.getElementById('calculator-modal').style.display = 'flex';
-            currentInput = "0";
-            calcDisplay.innerText = currentInput;
-        }
-
-        function closeCalculator() {
-            document.getElementById('calculator-modal').style.display = 'none';
-        }
-
-        function appendCalc(val) {
-            if (currentInput === "0" && val !== '.') {
-                currentInput = val;
-            } else {
-                currentInput += val;
-            }
-            calcDisplay.innerText = currentInput;
-        }
-
-        function clearCalc() {
-            currentInput = "0";
-            calcDisplay.innerText = currentInput;
-        }
-
-        function calculateResult() {
-            try {
-                let sanitized = currentInput.replace(/×/g, '*');
-                currentInput = eval(sanitized).toString();
-                calcDisplay.innerText = currentInput;
-            } catch (error) {
-                calcDisplay.innerText = "خطأ";
-                currentInput = "0";
-            }
-        }
-
-        function openVaultLogin() {
-            document.getElementById('calculator-modal').style.display = 'none';
-            document.getElementById('vault-login-modal').style.display = 'flex';
-        }
-
-        function closeVaultLogin() {
-            document.getElementById('vault-login-modal').style.display = 'none';
-        }
-
-        async function authenticateDeviceFingerprint() {
-            try {
-                const publicKey = {
-                    challenge: new Uint8Array([21, 31, 105, 43, 34, 45, 65, 76]),
-                    rp: { name: "خزنة ملك الهم" },
-                    user: { id: new Uint8Array([1, 2, 3, 4, 5]), name: "malik@device.com", displayName: "ملك الهم" },
-                    pubKeyCredParams: [{ alg: -7, type: "public-key" }],
-                    timeout: 60000,
-                    authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "required" }
-                };
-                await navigator.credentials.create({ publicKey });
-                closeVaultLogin();
-                document.getElementById('secret-vault-modal').style.display = 'flex';
-                loadHiddenData();
-            } catch (error) {
-                closeVaultLogin();
-                document.getElementById('secret-vault-modal').style.display = 'flex';
-                loadHiddenData();
-            }
-        }
-
-        function closeVault() {
-            document.getElementById('secret-vault-modal').style.display = 'none';
-        }
-
-        function hideApp() {
-            let appName = document.getElementById('app-name-input').value.trim();
-            if(appName) {
-                let hiddenApps = JSON.parse(localStorage.getItem('hiddenApps') || '[]');
-                hiddenApps.push(appName);
-                localStorage.setItem('hiddenApps', JSON.stringify(hiddenApps));
-                document.getElementById('app-name-input').value = '';
-                loadHiddenData();
-            }
-        }
-
-        function removeApp(index) {
-            let hiddenApps = JSON.parse(localStorage.getItem('hiddenApps') || '[]');
-            hiddenApps.splice(index, 1);
-            localStorage.setItem('hiddenApps', JSON.stringify(hiddenApps));
-            loadHiddenData();
-        }
-
-        function hideImage() {
-            let imgUrl = document.getElementById('img-url-input').value.trim();
-            if(imgUrl) {
-                let hiddenImgs = JSON.parse(localStorage.getItem('hiddenImgs') || '[]');
-                hiddenImgs.push(imgUrl);
-                localStorage.setItem('hiddenImgs', JSON.stringify(hiddenImgs));
-                document.getElementById('img-url-input').value = '';
-                loadHiddenData();
-            }
-        }
-
-        function removeImg(index) {
-            let hiddenImgs = JSON.parse(localStorage.getItem('hiddenImgs') || '[]');
-            hiddenImgs.splice(index, 1);
-            localStorage.setItem('hiddenImgs', JSON.stringify(hiddenImgs));
-            loadHiddenData();
-        }
-
-        function loadHiddenData() {
-            let hiddenApps = JSON.parse(localStorage.getItem('hiddenApps') || '[]');
-            let appsListHtml = '';
-            hiddenApps.forEach((app, index) => {
-                appsListHtml += `<div class="hidden-item"><span>${app}</span><span class="delete-item" onclick="removeApp(${index})">✕</span></div>`;
-            });
-            document.getElementById('hidden-apps-list').innerHTML = appsListHtml || '<div style="font-size:11px; opacity:0.6; text-align:center;">لا توجد تطبيقات مخفية</div>';
-
-            let hiddenImgs = JSON.parse(localStorage.getItem('hiddenImgs') || '[]');
-            let imgsListHtml = '';
-            hiddenImgs.forEach((img, index) => {
-                imgsListHtml += `<div class="hidden-img-card"><img src="${img}" alt="صورة مخفية"><div style="position:absolute; top:2px; left:2px; background:rgba(0,0,0,0.6); color:red; padding:1px 5px; font-size:10px; cursor:pointer;" onclick="removeImg(${index})">✕</div></div>`;
-            });
-            document.getElementById('hidden-images-list').innerHTML = imgsListHtml || '<div style="font-size:11px; opacity:0.6; grid-column: span 3; text-align:center;">لا توجد صور مخفية</div>';
-        }
-
-        const audio = document.getElementById('audio-player');
-        function openMusicPlayer() { document.getElementById('music-player-modal').style.display = 'flex'; }
-        function closeMusicPlayer() { document.getElementById('music-player-modal').style.display = 'none'; audio.pause(); }
-        function playSong(title, url, element) {
-            document.querySelectorAll('.song-item').forEach(item => { item.classList.remove('playing'); item.querySelector('span').innerText = '▶️'; });
-            element.classList.add('playing');
-            element.querySelector('span').innerText = '⏸️';
-            audio.src = url;
-            audio.play();
-        }
-    </script>
-    <img src="IMG-20261022-WA0057.jpg" alt="صورتي" style="width:250px; max-width:100%; border-radius:15px;">
-</body> 
-
-
+$("call").onclick=()=>startCall($("target").value.trim());
+$("copy").onclick=async()=>{
+ try{await navigator.clipboard.writeText(myId);$("copy").textContent="تم النسخ ✓"}
+ catch{prompt("انسخ رقمك:",myId)}
+};
+$("add").onclick=()=>{
+ const name=$("personName").value.trim(),id=$("personId").value.trim();
+ if(!name)return alert("اكتب اسم الشخص.");
+ if(!/^\d{8}$/.test(id))return alert("أدخل رقمًا من 8 أرقام.");
+ if(id===myId)return alert("هذا رقمك الشخصي.");
+ if(contacts.some(c=>c.id===id))return alert("هذا الرقم محفوظ.");
+ contacts.push({name,id});saveContacts();drawContacts();
+ $("personName").value="";$("personId").value="";
+};
+$("accept").onclick=acceptCall;
+$("decline").onclick=()=>{
+ if(incoming)socket.emit("hangup",{target:incoming.from});
+ incoming=null;$("incoming").close();
+};
+$("hangup").onclick=()=>endCall(true);
+$("ptt").addEventListener("pointerdown",startTalking);
+["pointerup","pointercancel","pointerleave","lostpointercapture"].forEach(ev=>$("ptt").addEventListener(ev,stopTalking));
+window.addEventListener("blur",stopTalking);
+document.addEventListener("visibilitychange",()=>{if(document.hidden)stopTalking()});
+drawContacts();
+</script>
+</body>
 </html>
