@@ -1,1025 +1,405 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mlk♕alhm - تطبيق ملك الهم الرسمي</title>
-    <meta name="description" content="موقع وتطبيق ملك الهم mlk♕alhm يضم إطار متوهج، ألعاب، الآلة الحاسبة السرية، وتطبيقات مميزة.">
-    <meta name="keywords" content="mlk♕alhm, ملك الهم, تطبيق ملك الهم, فري فاير">
-    <!-- استدعاء مكتبة تأثير التفتيت -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), 
-                        url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') no-repeat center center fixed;
-            background-size: cover;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-            padding: 15px;
-            text-align: center;
-            overflow: hidden;
-        }
-
-        /* القائمة العلوية */
-        .top-nav {
-            display: flex;
-            gap: 40px;
-            font-size: 16px;
-            margin-top: 5px;
-            z-index: 10;
-        }
-
-        .top-nav span {
-            opacity: 0.6;
-            cursor: pointer;
-            transition: opacity 0.3s;
-        }
-
-        .top-nav span.active {
-            opacity: 1;
-            font-weight: bold;
-            border-bottom: 2px solid white;
-            padding-bottom: 4px;
-        }
-
-        /* حاوية الشاشات */
-        .tab-content {
-            display: none;
-            width: 100%;
-            height: calc(100vh - 60px);
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-
-        .tab-content.active {
-            display: flex;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.98); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        /* --- محتوى تبويب "اكتشاف" --- */
-        .discovery-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            flex: 1;
-            width: 100%;
-        }
-
-        /* === حاوية المربع الذي يدور حوله اللون المتوهج === */
-        .glow-border-box {
-            position: relative;
-            width: 280px;
-            padding: 3px; /* سمك الإطار المتوهج */
-            border-radius: 18px;
-            overflow: hidden;
-            cursor: pointer;
-            margin-bottom: 20px;
-            transition: transform 0.3s, opacity 0.3s;
-        }
-
-        /* الطبقة الدوارة التي تصنع التوهج المتحرك حول النص */
-        .glow-border-box::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, #00ffcc, #ff00ff, #00ffcc, transparent 40%);
-            animation: rotateGlow 1s linear infinite;
-        }
-
-        @keyframes rotateGlow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* محتوى المربع الداخلي الثابت (النص) */
-        .glow-content {
-            position: relative;
-            background: rgba(15, 15, 15, 0.95);
-            padding: 15px 20px;
-            border-radius: 16px;
-            font-size: 15px;
-            font-weight: bold;
-            color: #00ffcc;
-            z-index: 1;
-            text-align: center;
-        }
-
-        /* تأثير التفتيت والاختفاء عند الضغط */
-        .glow-border-box.shattering {
-            animation: shatterEffect 0.6s forwards !important;
-            pointer-events: none;
-        }
-
-        @keyframes shatterEffect {
-            0% { transform: scale(1) rotate(0deg); opacity: 1; filter: blur(0); }
-            50% { transform: scale(1.4) rotate(45deg) skew(15deg, 15deg); opacity: 0.5; filter: blur(2px); }
-            100% { transform: scale(0) rotate(180deg) translate(40px, -40px); opacity: 0; filter: blur(8px); }
-        }
-
-        .phone-mockup {
-            background-color: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            width: 220px;
-            height: 240px;
-            border-radius: 30px;
-            position: relative;
-            margin: 5px auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .floating-icon {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 16px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        .icon-1 { background-color: #ff5252; top: -15px; right: 40px; }
-        .icon-2 { background-color: #ff5252; bottom: 20px; right: 20px; }
-        .icon-3 { background-color: #2979ff; bottom: 40px; left: 30px; }
-        .icon-4 { background-color: #4caf50; top: 30px; left: 20px; }
-
-        .content h1 {
-            font-size: 22px;
-            margin-bottom: 6px;
-            font-weight: 700;
-        }
-
-        .content p {
-            font-size: 12px;
-            opacity: 0.9;
-            max-width: 280px;
-            margin: 0 auto 8px auto;
-            line-height: 1.3;
-        }
-
-        .terms {
-            font-size: 10px;
-            opacity: 0.7;
-            margin-bottom: 10px;
-        }
-
-        .terms a {
-            color: white;
-            text-decoration: underline;
-        }
-
-        /* --- محتوى تبويب "شخصي" --- */
-        .personal-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex: 1;
-            width: 100%;
-            padding-top: 10px;
-        }
-
-        .apps-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 12px 8px;
-            width: 100%;
-            max-width: 380px;
-            margin: auto 0;
-            padding: 0 5px;
-        }
-
-        .app-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .app-item:hover {
-            transform: scale(1.08);
-        }
-
-        .app-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 14px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 22px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            margin-bottom: 4px;
-            position: relative;
-        }
-
-        .app-name {
-            font-size: 10px;
-            opacity: 0.9;
-            text-align: center;
-            max-width: 55px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        /* الأيقونات والتصميمات */
-        .app-galaxy { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
-        .app-meta { background: linear-gradient(135deg, #667eea, #764ba2); }
-        .app-vpn { background: linear-gradient(135deg, #00c6ff, #0072ff); }
-        .app-happy { background: linear-gradient(135deg, #84fab0, #8fd3f4); color: #000; }
-        .app-gaming { background: linear-gradient(135deg, #fa709a, #fee140); }
-        .app-msg1 { background: #0084ff; }
-        .app-radio { background: #e0e0e0; color: #333; }
-        .app-calc { background: linear-gradient(135deg, #11998e, #38ef7d); cursor: pointer; }
-        .app-studio { background: linear-gradient(135deg, #ff9a9e, #fecfef); }
-        .app-xender { background: linear-gradient(135deg, #ff758c, #ff7eb3); }
-        .app-keyboard { background: #1b5e20; }
-        .app-phone { background: #00e676; }
-        .app-camera { background: #424242; }
-        .app-settings { background: #616161; }
-        .app-msg2 { background: #2979ff; }
-        .app-capcut { background: #000; border: 1px solid rgba(255,255,255,0.3); }
-        .app-tiktok { background: #111; position: relative; }
-        .app-tiktok::after {
-            content: '99';
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            background: #ff3b30;
-            color: white;
-            font-size: 9px;
-            padding: 1px 4px;
-            border-radius: 8px;
-        }
-        .app-files { background: linear-gradient(135deg, #f6d365, #fda085); }
-        .app-music { background: linear-gradient(135deg, #ff9966, #ff5e62); cursor: pointer; }
-
-        /* شريط البحث السفلي */
-        .search-bar {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            width: 100%;
-            max-width: 360px;
-            padding: 12px 20px;
-            border-radius: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-        }
-
-        .search-bar span {
-            font-size: 13px;
-            opacity: 0.8;
-        }
-
-        .btn-container {
-            width: 100%;
-            max-width: 380px;
-            margin-bottom: 10px;
-        }
-
-        .main-btn {
-            background: linear-gradient(135deg, #007aff, #00c6ff);
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 14px;
-            border-radius: 30px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.4);
-        }
-
-        /* --- نافذة الآلة الحاسبة --- */
-        #calculator-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .calc-box {
-            background: #1e1e1e;
-            width: 300px;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-            border: 1px solid #333;
-        }
-
-        .calc-screen {
-            width: 100%;
-            height: 60px;
-            background: #111;
-            color: #fff;
-            font-size: 26px;
-            text-align: left;
-            padding: 10px 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            overflow-x: auto;
-            border: 1px solid #444;
-        }
-
-        .calc-buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-
-        .calc-btn {
-            background: #333;
-            color: white;
-            border: none;
-            padding: 15px;
-            font-size: 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .calc-btn:hover { background: #444; }
-        .calc-btn.op { background: #ff9500; }
-        .calc-btn.op:hover { background: #e08500; }
-        .calc-btn.action { background: #a6a6a6; color: black; }
-        .calc-btn.action:hover { background: #888; }
-        .calc-btn.vault-trigger { background: #11998e; grid-column: span 2; font-size: 14px; font-weight: bold; }
-
-        /* --- نافذة بصمة الجهاز --- */
-        #vault-login-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px);
-            z-index: 150;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .vault-login-box {
-            background: #222;
-            width: 320px;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-            border: 1px solid #444;
-            text-align: center;
-        }
-
-        .vault-login-box h3 {
-            color: #38ef7d;
-            margin-bottom: 10px;
-            font-size: 18px;
-        }
-
-        .vault-login-box p {
-            font-size: 12px;
-            color: #ccc;
-            margin-bottom: 20px;
-        }
-
-        .fingerprint-scanner {
-            margin: 15px auto;
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: rgba(56, 239, 125, 0.15);
-            border: 2px solid #38ef7d;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 32px;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(56, 239, 125, 0.3);
-            transition: transform 0.2s;
-        }
-
-        .fingerprint-scanner:hover {
-            transform: scale(1.08);
-        }
-
-        .vault-btn-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .vault-action-btn {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .btn-cancel { background: #ff3b30; color: white; }
-
-        /* --- واجهة الخزنة --- */
-        #secret-vault-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            z-index: 200;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            padding: 20px;
-            overflow-y: auto;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .vault-box {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            width: 100%;
-            max-width: 380px;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .vault-box h2 {
-            color: #00ffcc;
-            font-size: 20px;
-            margin-bottom: 5px;
-        }
-
-        .vault-section {
-            margin-top: 15px;
-            text-align: right;
-            background: rgba(0,0,0,0.2);
-            padding: 12px;
-            border-radius: 12px;
-        }
-
-        .vault-section h4 {
-            color: #ffcc00;
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-
-        .vault-input-small {
-            width: 100%;
-            padding: 8px;
-            font-size: 13px;
-            background: rgba(0,0,0,0.4);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 8px;
-            margin-bottom: 8px;
-        }
-
-        .vault-add-btn {
-            background: #00ffcc;
-            color: black;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 12px;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        .hidden-list {
-            max-height: 100px;
-            overflow-y: auto;
-            margin-top: 8px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .hidden-item {
-            background: rgba(255,255,255,0.1);
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .delete-item {
-            color: #ff3b30;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .hidden-images-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-            margin-top: 8px;
-            max-height: 120px;
-            overflow-y: auto;
-        }
-
-        .hidden-img-card {
-            position: relative;
-            width: 100%;
-            height: 60px;
-            border-radius: 6px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-
-        .hidden-img-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .close-vault-btn {
-            background: #ff3b30;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 15px;
-            width: 100%;
-        }
-
-        /* --- نافذة مشغل الموسيقى --- */
-        #music-player-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(15px);
-            z-index: 100;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .music-box {
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            width: 100%;
-            max-width: 360px;
-            border-radius: 25px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .music-box h2 {
-            font-size: 20px;
-            margin-bottom: 5px;
-            color: #ffcc00;
-        }
-
-        .bot-subtitle {
-            font-size: 12px;
-            opacity: 0.8;
-            margin-bottom: 15px;
-        }
-
-        .playlist {
-            width: 100%;
-            max-height: 230px;
-            overflow-y: auto;
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .song-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 12px 15px;
-            border-radius: 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 1px solid transparent;
-        }
-
-        .song-item:hover, .song-item.playing {
-            background: rgba(255, 140, 0, 0.3);
-            border-color: #ff8c00;
-        }
-
-        .song-info {
-            text-align: right;
-        }
-
-        .song-title {
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .song-artist {
-            font-size: 11px;
-            color: #00ffcc;
-        }
-
-        .close-music-btn {
-            background: linear-gradient(135deg, #ff416c, #ff4b2b);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            width: 100%;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>mlk♕lavi | استوديو البث</title>
+<style>
+:root{
+  --bg:#080b16;--panel:#11182b;--cyan:#35e7ff;
+  --purple:#9d63ff;--text:#f4f6ff;--muted:#aab4cf;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:radial-gradient(circle at top,#182747,var(--bg) 55%);
+  color:var(--text);font-family:Arial,sans-serif;min-height:100vh;
+}
+header{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;padding:18px 5%;border-bottom:1px solid #283450;
+  position:sticky;top:0;background:#080b16ed;z-index:5;
+}
+.logo{font-size:23px;font-weight:bold;color:var(--cyan)}
+.status{font-size:12px;color:#a9f5ce}
+main{width:min(1050px,94%);margin:24px auto}
+h1{font-size:27px;margin-bottom:8px}
+h2{font-size:20px}
+p{line-height:1.8}
+.muted{color:var(--muted);font-size:14px}
+.panel{
+  background:linear-gradient(145deg,#151d32,#0e1424);
+  border:1px solid #2a3756;border-radius:20px;
+  padding:18px;margin:17px 0;box-shadow:0 12px 35px #0003;
+}
+.preview{
+  position:relative;background:#03050b;border-radius:16px;
+  overflow:hidden;min-height:230px;display:grid;place-items:center;
+}
+video{width:100%;max-height:480px;object-fit:contain;display:none}
+.placeholder{text-align:center;padding:30px;color:var(--muted)}
+.camera-icon{font-size:55px;margin-bottom:12px}
+button,a.btn{
+  display:inline-block;border:0;border-radius:12px;padding:12px 16px;
+  font-weight:bold;cursor:pointer;text-decoration:none;font-size:14px;
+  transition:.2s;margin:4px 0;
+}
+button:hover,a.btn:hover{transform:translateY(-2px);filter:brightness(1.12)}
+.primary{background:linear-gradient(100deg,var(--cyan),#77baff);color:#06121d}
+.secondary{background:#252f4b;color:white;border:1px solid #394968}
+.purple{background:linear-gradient(100deg,#8e5aff,#c16cff);color:white}
+.danger{background:#502532;color:#ffd8df}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:15px}
+label{display:block;margin:12px 0 7px;color:var(--muted);font-size:14px}
+select,input{
+  width:100%;padding:12px;border-radius:10px;
+  background:#080e1c;border:1px solid #35415f;color:white;
+}
+.qr-wrap{text-align:center}
+#qrcode{background:white;padding:12px;width:max-content;max-width:100%;
+  margin:15px auto;border-radius:12px;min-height:20px}
+#qrcode img,#qrcode canvas{max-width:100%;height:auto!important}
+.notice{
+  border-right:4px solid var(--cyan);padding:12px;
+  background:#102333;border-radius:8px;font-size:14px;line-height:1.8;
+}
+.demo-screen{
+  background:radial-gradient(circle at top,#253960,#080e1d);
+  border:1px solid #354769;border-radius:16px;padding:24px;text-align:center;
+  min-height:260px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+}
+.demo-icon{font-size:53px;margin-bottom:12px}
+.demo-title{font-size:22px;font-weight:bold}
+.demo-text{color:#d0d9ef;line-height:1.9;max-width:650px}
+.progress{height:6px;background:#27324c;border-radius:9px;overflow:hidden;width:100%;margin-top:15px}
+#progressFill{height:100%;width:12.5%;background:linear-gradient(90deg,var(--cyan),var(--purple));transition:.2s}
+.step-list{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}
+.step-list button{background:#202b44;color:#dfe7ff;padding:9px 11px;font-size:12px}
+.step-list button.active{background:var(--cyan);color:#07111b}
+footer{text-align:center;color:var(--muted);padding:25px;font-size:13px}
+a{color:var(--cyan)}
+.modal{
+  display:none;position:fixed;inset:0;background:#000c;z-index:20;
+  align-items:center;justify-content:center;padding:15px;
+}
+.modal.show{display:flex}
+.modal-box{
+  background:#111a2e;border:1px solid #3b4a6c;border-radius:18px;
+  padding:22px;width:min(550px,100%);max-height:85vh;overflow:auto;
+}
+@media(max-width:550px){
+ header{padding:14px 4%}.logo{font-size:18px}
+ h1{font-size:23px}.panel{padding:14px}
+ .preview{min-height:200px}
+}
+</style>
 </head>
 <body>
 
-    <!-- القائمة العلوية -->
-    <div class="top-nav">
-        <span id="nav-personal" onclick="switchTab('personal')">شخصي</span>
-        <span id="nav-discovery" class="active" onclick="switchTab('discovery')">اكتشاف</span>
+<header>
+  <div class="logo">♕ mlk♕lavi</div>
+  <div class="status" id="status">● الكاميرا متوقفة</div>
+  <button class="secondary" id="helpBtn">❔ المساعدة</button>
+</header>
+
+<main>
+  <h1>استوديو البث الذكي 👑</h1>
+  <p class="muted">كاميرتك، إعداداتك، ودليل تعليمي يساعدك على البدء.</p>
+
+  <section class="panel">
+    <h2>📹 معاينة الكاميرا</h2>
+    <div class="preview">
+      <video id="video" autoplay playsinline muted></video>
+      <div class="placeholder" id="placeholder">
+        <div class="camera-icon">📷</div>
+        <strong>الكاميرا جاهزة للتشغيل</strong>
+        <p class="muted">اضغط على تشغيل الكاميرا واسمح بالوصول إليها.</p>
+      </div>
     </div>
-
-    <!-- تبويب اكتشاف -->
-    <div id="tab-discovery" class="tab-content active">
-        <div class="discovery-container">
-            
-            <!-- مربع النص المحاط بإطار متوهج يدور حول نفسه كل ثانية -->
-            <div id="shatterBox" class="glow-border-box" onclick="shatterAndExplode(event)">
-                <div class="glow-content">
-                    ✨ الإطار المتوهج يدور، والنص ثابت! ✨
-                </div>
-            </div>
-
-            <div class="phone-mockup">
-                <div class="floating-icon icon-1">🛍️</div>
-                <div class="floating-icon icon-2">📷</div>
-                <div class="floating-icon icon-3">✈️</div>
-                <div class="floating-icon icon-4">👤</div>
-            </div>
-
-            <div class="content">
-                <h1>مرحباً بك في التطبيق</h1>
-                <p>احصل على التطبيقات التي تتوافق مع اهتماماتك واحتياجاتك بسهولة.</p>
-                <div class="terms">
-                    للمتابعة، اقرأ <a href="#">بنود وشروط</a> ووافق عليها.
-                </div>
-            </div>
-        </div>
-
-        <div class="btn-container">
-            <button class="main-btn" onclick="switchTab('personal')">أوافق (عرض شخصي)</button>
-        </div>
+    <div class="actions">
+      <button class="primary" id="startBtn">▶ تشغيل الكاميرا</button>
+      <button class="secondary" id="switchBtn">🔄 تبديل الكاميرا</button>
+      <button class="danger" id="stopBtn">■ إيقاف</button>
     </div>
+    <p class="muted" id="cameraMessage">قد تحتاج إلى فتح الصفحة عبر HTTPS للسماح بالكاميرا.</p>
+  </section>
 
-    <!-- تبويب شخصي -->
-    <div id="tab-personal" class="tab-content">
-        <div class="personal-container">
-            <div class="apps-grid">
-                <div class="app-item"><div class="app-icon app-galaxy">🌌</div><span class="app-name">My Galaxy</span></div>
-                <div class="app-item"><div class="app-icon app-meta">🟣</div><span class="app-name">Meta AI</span></div>
-                <div class="app-item"><div class="app-icon app-vpn">🌐</div><span class="app-name">Max VPN</span></div>
-                <div class="app-item"><div class="app-icon app-happy">👾</div><span class="app-name">HappyMod</span></div>
-                <div class="app-item"><div class="app-icon app-gaming">🎮</div><span class="app-name">Gaming Hub</span></div>
+  <div class="grid">
+    <section class="panel">
+      <h2>⚙️ إعدادات التطبيق</h2>
+      <label for="mode">وضع الاستخدام</label>
+      <select id="mode">
+        <option value="camera">معاينة الكاميرا</option>
+        <option value="obs">استخدام الرابط مع OBS</option>
+      </select>
+      <label for="quality">جودة الكاميرا</label>
+      <select id="quality">
+        <option value="480">480p - توفير البيانات</option>
+        <option value="720" selected>720p - جودة جيدة</option>
+        <option value="1080">1080p - جودة عالية</option>
+      </select>
+      <div class="actions">
+        <button class="purple" id="applyBtn">تطبيق الإعدادات</button>
+      </div>
+      <p class="muted" id="settingsMessage">اختر الإعدادات المناسبة لك.</p>
+    </section>
 
-                <div class="app-item"><div class="app-icon app-msg1">💬</div><span class="app-name">الرسائل</span></div>
-                <div class="app-item"><div class="app-icon app-radio">📻</div><span class="app-name">الراديو</span></div>
-                <div class="app-item" onclick="openCalculator()"><div class="app-icon app-calc">🔢</div><span class="app-name">الحاسبة</span></div>
-                <div class="app-item"><div class="app-icon app-studio">🌸</div><span class="app-name">الاستوديو</span></div>
-                <div class="app-item"><div class="app-icon app-xender">✖️</div><span class="app-name">Xender</span></div>
+    <section class="panel qr-wrap">
+      <h2>🔗 مشاركة رابط الصفحة</h2>
+      <p class="muted">أنشئ رمز QR لفتح رابط هذه الصفحة على جهاز آخر.</p>
+      <div id="qrcode"></div>
+      <div class="actions" style="justify-content:center">
+        <button class="primary" id="makeQr">إنشاء QR</button>
+        <button class="secondary" id="copyBtn">نسخ الرابط</button>
+        <button class="secondary" id="shareBtn">مشاركة</button>
+      </div>
+      <p class="muted" id="shareMessage">يجب نشر الصفحة على رابط متاح حتى يستطيع هاتف آخر فتحها.</p>
+    </section>
+  </div>
 
-                <div class="app-item"><div class="app-icon app-keyboard">⌨️</div><span class="app-name">لوحة المفاتيح</span></div>
-                <div class="app-item"><div class="app-icon app-phone">📞</div><span class="app-name">الهاتف</span></div>
-                <div class="app-item"><div class="app-icon app-camera">📷</div><span class="app-name">الكاميرا</span></div>
-                <div class="app-item"><div class="app-icon app-settings">⚙️</div><span class="app-name">الضبط</span></div>
-                <div class="app-item"><div class="app-icon app-msg2">🔵</div><span class="app-name">الرسائل</span></div>
-
-                <div class="app-item"><div class="app-icon app-capcut">✂️</div><span class="app-name">CapCut</span></div>
-                <div class="app-item"><div class="app-icon app-tiktok">🎵</div><span class="app-name">TikTok</span></div>
-                <div class="app-item"><div class="app-icon app-files">📁</div><span class="app-name">ملفاتي</span></div>
-                <div class="app-item" onclick="openMusicPlayer()"><div class="app-icon app-music">🎶</div><span class="app-name">مشغل الموسيقى</span></div>
-            </div>
-        </div>
-
-        <div class="search-bar">
-            <span>بحث...</span>
-            <span>⋮</span>
-        </div>
+  <section class="panel" id="tutorial">
+    <h2>🎬 شرح التطبيق من الصفر للمبتدئين</h2>
+    <p class="muted">اتبع الخطوات واحدة تلو الأخرى. اضغط «التالي» للانتقال إلى الخطوة التالية.</p>
+    <div class="demo-screen">
+      <div class="demo-icon" id="demoIcon">👑</div>
+      <div class="demo-title" id="demoTitle">مرحبًا بك</div>
+      <p class="demo-text" id="demoText"></p>
+      <div class="progress"><div id="progressFill"></div></div>
+      <p class="muted" id="demoCount"></p>
     </div>
-
-    <!-- نافذة الآلة الحاسبة -->
-    <div id="calculator-modal">
-        <div class="calc-box">
-            <div id="calc-display" class="calc-screen">0</div>
-            <div class="calc-buttons">
-                <button class="calc-btn action" onclick="clearCalc()">C</button>
-                <button class="calc-btn action" onclick="appendCalc('%')">%</button>
-                <button class="calc-btn op" onclick="appendCalc('/')">/</button>
-                <button class="calc-btn op" onclick="appendCalc('*')">×</button>
-                
-                <button class="calc-btn" onclick="appendCalc('7')">7</button>
-                <button class="calc-btn" onclick="appendCalc('8')">8</button>
-                <button class="calc-btn" onclick="appendCalc('9')">9</button>
-                <button class="calc-btn op" onclick="appendCalc('-')">-</button>
-                
-                <button class="calc-btn" onclick="appendCalc('4')">4</button>
-                <button class="calc-btn" onclick="appendCalc('5')">5</button>
-                <button class="calc-btn" onclick="appendCalc('6')">6</button>
-                <button class="calc-btn op" onclick="appendCalc('+')">+</button>
-                
-                <button class="calc-btn" onclick="appendCalc('1')">1</button>
-                <button class="calc-btn" onclick="appendCalc('2')">2</button>
-                <button class="calc-btn" onclick="appendCalc('3')">3</button>
-                <button class="calc-btn op" onclick="calculateResult()">=</button>
-                
-                <button class="calc-btn" onclick="appendCalc('0')">0</button>
-                <button class="calc-btn" onclick="appendCalc('.')">.</button>
-                <button class="calc-btn vault-trigger" onclick="openVaultLogin()">🔒 الخزنة</button>
-                
-                <button class="calc-btn action" onclick="closeCalculator()" style="grid-column: span 4; background:#ff3b30; color:white; margin-top:5px;">إغلاق الحاسبة</button>
-            </div>
-        </div>
+    <div class="actions" style="justify-content:center">
+      <button class="secondary" id="prevDemo">❮ السابق</button>
+      <button class="primary" id="nextDemo">التالي ❯</button>
     </div>
+    <div class="step-list" id="stepList"></div>
+  </section>
 
-    <!-- نافذة بصمة الجهاز -->
-    <div id="vault-login-modal">
-        <div class="vault-login-box">
-            <h3>🔐 قفل بصمة الجهاز</h3>
-            <p>انقر أدناه لمسح بصمة الإصبع</p>
-            <div class="fingerprint-scanner" onclick="authenticateDeviceFingerprint()">👆</div>
-            <div class="vault-btn-group">
-                <button class="vault-action-btn btn-cancel" onclick="closeVaultLogin()">إلغاء</button>
-            </div>
-        </div>
+  <section class="panel">
+    <h2>📌 معلومات مهمة</h2>
+    <div class="notice">
+      هذا الإصدار يعرض الكاميرا على الجهاز نفسه، ويولّد رمز QR لرابط الصفحة.
+      <strong>لا يرسل الفيديو تلقائيًا إلى هاتف آخر ولا يربط البث فعليًا مع OBS.</strong>
+      تحتاج إلى إضافة تقنية بث مثل WebRTC أو خادم بث لبناء هذه الوظائف.
     </div>
+  </section>
+</main>
 
-    <!-- واجهة الخزنة -->
-    <div id="secret-vault-modal">
-        <div class="vault-box">
-            <h2>🛡️ خزنة ملك الهم الآمنة</h2>
-            <p style="font-size: 11px; opacity: 0.8; margin-bottom: 10px;">تم التحقق من بصمتك بنجاح</p>
+<footer>
+  صنع بكل فخر ♕ mlk♕lavi<br>
+  المطور: mlh♕alhm | ملك♕الهم
+</footer>
 
-            <div class="vault-section">
-                <h4>📱 التطبيقات المخفية</h4>
-                <input type="text" id="app-name-input" class="vault-input-small" placeholder="اسم التطبيق...">
-                <button class="vault-add-btn" onclick="hideApp()">إخفاء تطبيق</button>
-                <div id="hidden-apps-list" class="hidden-list"></div>
-            </div>
+<div class="modal" id="helpOverlay">
+  <div class="modal-box">
+    <h2>❔ مركز المساعدة</h2>
+    <p>1. اضغط على «تشغيل الكاميرا» واسمح للمتصفح باستخدام الكاميرا.</p>
+    <p>2. استخدم «تبديل الكاميرا» للتنقل بين الأمامية والخلفية، إذا كان جهازك يدعم ذلك.</p>
+    <p>3. اختر الجودة ثم اضغط «تطبيق الإعدادات». قد تحتاج إلى إعادة تشغيل الكاميرا لتطبيق الجودة.</p>
+    <p>4. رمز QR يفتح رابط الصفحة فقط؛ لا يرسل الفيديو وحده.</p>
+    <p>5. <strong>ما هو OBS Studio؟</strong> برنامج مجاني للكمبيوتر يساعدك على تسجيل الشاشة وتجهيز البث المباشر وإضافة مصادر الفيديو والصوت.</p>
+    <p>6. تنزيل OBS من الموقع الرسمي: <a href="https://obsproject.com/" target="_blank" rel="noopener">obsproject.com</a></p>
+    <p>7. هذا التطبيق ليس متصلًا تلقائيًا بـ OBS. ستحتاج إلى إعداد مصدر متوافق مع OBS أو تطوير ميزة البث أولًا.</p>
+    <button class="primary" id="closeHelp">فهمت، إغلاق</button>
+    <button class="secondary" id="closeX">رجوع</button>
+  </div>
+</div>
 
-            <div class="vault-section">
-                <h4>🖼️ الصور المخفية</h4>
-                <input type="text" id="img-url-input" class="vault-input-small" placeholder="رابط الصورة...">
-                <button class="vault-add-btn" onclick="hideImage()">إخفاء صورة</button>
-                <div id="hidden-images-list" class="hidden-images-grid"></div>
-            </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const $ = id => document.getElementById(id);
 
-            <button class="close-vault-btn" onclick="closeVault()">قفل الخزنة</button>
-        </div>
-    </div>
+let stream = null;
+let facingMode = "user";
+let currentStep = 0;
 
-    <!-- مشغل الموسيقى -->
-    <div id="music-player-modal">
-        <div class="music-box">
-            <h2>👑 ملك الهم البوت</h2>
-            <div class="bot-subtitle">أغاني ملك الهم وحماس فري فاير</div>
-            <div class="playlist">
-                <div class="song-item" onclick="playSong('أغنية ملك الهم الأسطوري', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', this)">
-                    <div class="song-info">
-                        <div class="song-title">👑 ملك الهم الأسطوري</div>
-                        <div class="song-artist">ملك الهم البوت</div>
-                    </div>
-                    <span>▶️</span>
-                </div>
-            </div>
-            <button class="close-music-btn" onclick="closeMusicPlayer()" style="background:#ff5e62;">إغلاق المشغل</button>
-        </div>
-    </div>
+const demoSteps = [
+  {
+    icon:"👑",title:"1. مرحبًا بك في mlk♕lavi",
+    text:"هذا تطبيق تجريبي لمعاينة الكاميرا وإعداد بعض الخيارات. استخدم أزرار التشغيل والإيقاف، ثم تعرّف على المشاركة وOBS."
+  },
+  {
+    icon:"📷",title:"2. تشغيل الكاميرا",
+    text:"اضغط على زر تشغيل الكاميرا. عندما تظهر رسالة طلب الإذن، اختر السماح. إذا لم تعمل الكاميرا، افتح الصفحة عبر HTTPS وتأكد من أذونات المتصفح."
+  },
+  {
+    icon:"🔄",title:"3. تبديل الكاميرا والجودة",
+    text:"اضغط على تبديل الكاميرا للتنقل بين الأمامية والخلفية. اختر 480p أو 720p أو 1080p. قد لا يدعم هاتفك كل الخيارات، وستُعاد محاولة تشغيل الكاميرا بالجودة الجديدة."
+  },
+  {
+    icon:"🔗",title:"4. مشاركة الرابط وQR",
+    text:"أنشئ رمز QR أو انسخ رابط الصفحة وشاركه. يجب أن تكون الصفحة منشورة على الإنترنت حتى يفتحها جهاز آخر. تذكر: فتح الرابط على هاتف آخر لا ينقل إليه فيديو الكاميرا."
+  },
+  {
+    icon:"🖥️",title:"5. ما هو OBS Studio؟",
+    text:"OBS Studio برنامج مجاني للكمبيوتر يستخدم لتسجيل الشاشة وتجهيز البث المباشر. يمكنك إضافة مصادر مثل كاميرا الويب والصوت والصور ومشاركة هذه المصادر في البث. الموقع الرسمي: obsproject.com"
+  },
+  {
+    icon:"🛠️",title:"6. كيف تستخدم OBS؟",
+    text:"نزّل OBS من موقعه الرسمي وثبّته على الكمبيوتر. افتحه، ثم من قسم Sources اضغط + لإضافة مصدر مثل Video Capture Device للكاميرا أو Window Capture لنافذة برنامج. افحص المعاينة والصوت قبل البث. هذا التطبيق لا يرسل الفيديو إلى OBS تلقائيًا."
+  },
+  {
+    icon:"📡",title:"7. كيف تبدأ البث المباشر؟",
+    text:"في OBS يمكنك إعداد منصة البث التي تستخدمها، ثم اتباع تعليمات المنصة لإدخال بيانات البث المطلوبة. لا تشارك مفتاح البث مع أي شخص. قد تحتاج إلى استيفاء شروط المنصة قبل السماح بالبث."
+  },
+  {
+    icon:"⚠️",title:"8. ما الذي لا يفعله هذا الإصدار؟",
+    text:"هذا الإصدار يشغّل كاميرا الجهاز محليًا وينشئ QR للرابط. لا يحتوي بعد على اتصال فيديو مباشر بين هاتفين، ولا على إرسال حقيقي إلى OBS أو TikTok أو Facebook. يلزم تطوير نظام بث واتصال مناسب لإضافة ذلك."
+  }
+];
 
-    <audio id="audio-player"></audio>
+function setStatus(text){
+  $("status").textContent = text;
+}
 
-    <script>
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.top-nav span').forEach(el => el.classList.remove('active'));
+function getConstraints(){
+  const height = Number($("quality").value);
+  return {
+    audio:false,
+    video:{
+      facingMode:{ideal:facingMode},
+      width:{ideal:height === 480 ? 854 : height === 720 ? 1280 : 1920},
+      height:{ideal:height}
+    }
+  };
+}
 
-            if (tabName === 'personal') {
-                document.getElementById('tab-personal').classList.add('active');
-                document.getElementById('nav-personal').classList.add('active');
-            } else {
-                document.getElementById('tab-discovery').classList.add('active');
-                document.getElementById('nav-discovery').classList.add('active');
-            }
-        }
+async function startCamera(){
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    $("cameraMessage").textContent =
+      "المتصفح لا يدعم الكاميرا هنا. افتح الصفحة عبر HTTPS في متصفح حديث.";
+    return;
+  }
 
-        /* دالة تفتيت المربع وتوليد تأثير الأجزاء المتناثرة عند الضغط */
-        function shatterAndExplode(event) {
-            const box = document.getElementById('shatterBox');
-            box.classList.add('shattering');
+  stopCamera(false);
+  $("cameraMessage").textContent = "جارٍ تشغيل الكاميرا...";
+  try{
+    stream = await navigator.mediaDevices.getUserMedia(getConstraints());
+    $("video").srcObject = stream;
+    $("video").style.display = "block";
+    $("placeholder").style.display = "none";
+    setStatus("● الكاميرا تعمل");
+    $("cameraMessage").textContent = "تم تشغيل الكاميرا بنجاح.";
+  }catch(error){
+    setStatus("● الكاميرا متوقفة");
+    $("cameraMessage").textContent =
+      "تعذر تشغيل الكاميرا. تحقق من الإذن، ومن أن الصفحة تعمل عبر HTTPS، ثم حاول مجددًا.";
+  }
+}
 
-            // إطلاق تأثير تكسير وانفجار الأجزاء
-            confetti({
-                particleCount: 80,
-                spread: 70,
-                origin: { y: 0.3 }
-            });
+function stopCamera(updateMessage=true){
+  if(stream){
+    stream.getTracks().forEach(track=>track.stop());
+    stream = null;
+  }
+  $("video").srcObject = null;
+  $("video").style.display = "none";
+  $("placeholder").style.display = "block";
+  setStatus("● الكاميرا متوقفة");
+  if(updateMessage) $("cameraMessage").textContent = "تم إيقاف الكاميرا.";
+}
 
-            // إخفاء العنصر نهائياً بعد انتهاء مدة التفتيت
-            setTimeout(() => {
-                box.style.display = 'none';
-            }, 600);
-        }
+async function switchCamera(){
+  facingMode = facingMode === "user" ? "environment" : "user";
+  if(stream) await startCamera();
+  else $("cameraMessage").textContent =
+    "تم اختيار الكاميرا " + (facingMode === "user" ? "الأمامية" : "الخلفية") + ". اضغط تشغيل الكاميرا.";
+}
 
-        /* دوال الآلة الحاسبة والخزنة والبصمة */
-        let calcDisplay = document.getElementById('calc-display');
-        let currentInput = "0";
+$("startBtn").addEventListener("click",startCamera);
+$("stopBtn").addEventListener("click",()=>stopCamera());
+$("switchBtn").addEventListener("click",switchCamera);
 
-        function openCalculator() {
-            document.getElementById('calculator-modal').style.display = 'flex';
-            currentInput = "0";
-            calcDisplay.innerText = currentInput;
-        }
+$("applyBtn").addEventListener("click",async()=>{
+  $("settingsMessage").textContent =
+    "تم اختيار جودة " + $("quality").value + "p ووضع " +
+    ($("mode").value === "obs" ? "OBS" : "الكاميرا") + ".";
+  if(stream) await startCamera();
+});
 
-        function closeCalculator() {
-            document.getElementById('calculator-modal').style.display = 'none';
-        }
+function makeQR(){
+  const box = $("qrcode");
+  box.innerHTML = "";
+  const url = location.href;
+  if(!/^https?:$/.test(location.protocol)){
+    $("shareMessage").textContent =
+      "انشر ملف HTML على موقع HTTPS أولًا، ثم افتح الرابط المنشور لإنشاء QR صالح للمشاركة.";
+    return;
+  }
+  if(typeof QRCode === "undefined"){
+    $("shareMessage").textContent = "تعذر تحميل مولّد QR. تحقق من اتصال الإنترنت.";
+    return;
+  }
+  new QRCode(box,{text:url,width:180,height:180});
+  $("shareMessage").textContent = "هذا الرمز يفتح رابط الصفحة فقط.";
+}
+$("makeQr").addEventListener("click",makeQR);
 
-        function appendCalc(val) {
-            if (currentInput === "0" && val !== '.') {
-                currentInput = val;
-            } else {
-                currentInput += val;
-            }
-            calcDisplay.innerText = currentInput;
-        }
+$("copyBtn").addEventListener("click",async()=>{
+  try{
+    await navigator.clipboard.writeText(location.href);
+    $("shareMessage").textContent = "تم نسخ رابط الصفحة.";
+  }catch(e){
+    $("shareMessage").textContent =
+      "لم يستطع المتصفح النسخ تلقائيًا. انسخ الرابط من شريط العنوان.";
+  }
+});
 
-        function clearCalc() {
-            currentInput = "0";
-            calcDisplay.innerText = currentInput;
-        }
+$("shareBtn").addEventListener("click",async()=>{
+  if(navigator.share){
+    try{
+      await navigator.share({title:"mlk♕lavi",text:"افتح تطبيق mlk♕lavi",url:location.href});
+    }catch(e){}
+  }else{
+    $("shareMessage").textContent = "استخدم زر نسخ الرابط لمشاركته.";
+  }
+});
 
-        function calculateResult() {
-            try {
-                let sanitized = currentInput.replace(/×/g, '*');
-                currentInput = eval(sanitized).toString();
-                calcDisplay.innerText = currentInput;
-            } catch (error) {
-                calcDisplay.innerText = "خطأ";
-                currentInput = "0";
-            }
-        }
+function renderStep(){
+  const step = demoSteps[currentStep];
+  $("demoIcon").textContent = step.icon;
+  $("demoTitle").textContent = step.title;
+  $("demoText").textContent = step.text;
+  $("demoCount").textContent =
+    "الخطوة " + (currentStep+1) + " من " + demoSteps.length;
+  $("progressFill").style.width =
+    ((currentStep+1)/demoSteps.length*100) + "%";
+  $("prevDemo").disabled = currentStep === 0;
+  $("nextDemo").textContent =
+    currentStep === demoSteps.length-1 ? "إعادة الشرح ↻" : "التالي ❯";
 
-        function openVaultLogin() {
-            document.getElementById('calculator-modal').style.display = 'none';
-            document.getElementById('vault-login-modal').style.display = 'flex';
-        }
+  const list = $("stepList");
+  list.innerHTML = "";
+  demoSteps.forEach((item,index)=>{
+    const btn = document.createElement("button");
+    btn.textContent = (index+1) + ". " + item.title.split(". ")[1];
+    if(index === currentStep) btn.classList.add("active");
+    btn.addEventListener("click",()=>{
+      currentStep = index;
+      renderStep();
+    });
+    list.appendChild(btn);
+  });
+}
+$("prevDemo").addEventListener("click",()=>{
+  if(currentStep>0){currentStep--;renderStep();}
+});
+$("nextDemo").addEventListener("click",()=>{
+  currentStep = currentStep === demoSteps.length-1 ? 0 : currentStep+1;
+  renderStep();
+});
 
-        function closeVaultLogin() {
-            document.getElementById('vault-login-modal').style.display = 'none';
-        }
+function openHelp(){$("helpOverlay").classList.add("show");}
+function closeHelp(){$("helpOverlay").classList.remove("show");}
+$("helpBtn").addEventListener("click",openHelp);
+$("closeHelp").addEventListener("click",closeHelp);
+$("closeX").addEventListener("click",closeHelp);
+$("helpOverlay").addEventListener("click",e=>{
+  if(e.target === $("helpOverlay")) closeHelp();
+});
 
-        async function authenticateDeviceFingerprint() {
-            try {
-                const publicKey = {
-                    challenge: new Uint8Array([21, 31, 105, 43, 34, 45, 65, 76]),
-                    rp: { name: "خزنة ملك الهم" },
-                    user: { id: new Uint8Array([1, 2, 3, 4, 5]), name: "malik@device.com", displayName: "ملك الهم" },
-                    pubKeyCredParams: [{ alg: -7, type: "public-key" }],
-                    timeout: 60000,
-                    authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "required" }
-                };
-                await navigator.credentials.create({ publicKey });
-                closeVaultLogin();
-                document.getElementById('secret-vault-modal').style.display = 'flex';
-                loadHiddenData();
-            } catch (error) {
-                closeVaultLogin();
-                document.getElementById('secret-vault-modal').style.display = 'flex';
-                loadHiddenData();
-            }
-        }
-
-        function closeVault() {
-            document.getElementById('secret-vault-modal').style.display = 'none';
-        }
-
-        function hideApp() {
-            let appName = document.getElementById('app-name-input').value.trim();
-            if(appName) {
-                let hiddenApps = JSON.parse(localStorage.getItem('hiddenApps') || '[]');
-                hiddenApps.push(appName);
-                localStorage.setItem('hiddenApps', JSON.stringify(hiddenApps));
-                document.getElementById('app-name-input').value = '';
-                loadHiddenData();
-            }
-        }
-
-        function removeApp(index) {
-            let hiddenApps = JSON.parse(localStorage.getItem('hiddenApps') || '[]');
-            hiddenApps.splice(index, 1);
-            localStorage.setItem('hiddenApps', JSON.stringify(hiddenApps));
-            loadHiddenData();
-        }
-
-        function hideImage() {
-            let imgUrl = document.getElementById('img-url-input').value.trim();
-            if(imgUrl) {
-                let hiddenImgs = JSON.parse(localStorage.getItem('hiddenImgs') || '[]');
-                hiddenImgs.push(imgUrl);
-                localStorage.setItem('hiddenImgs', JSON.stringify(hiddenImgs));
-                document.getElementById('img-url-input').value = '';
-                loadHiddenData();
-            }
-        }
-
-        function removeImg(index) {
-            let hiddenImgs = JSON.parse(localStorage.getItem('hiddenImgs') || '[]');
-            hiddenImgs.splice(index, 1);
-            localStorage.setItem('hiddenImgs', JSON.stringify(hiddenImgs));
-            loadHiddenData();
-        }
-
-        function loadHiddenData() {
-            let hiddenApps = JSON.parse(localStorage.getItem('hiddenApps') || '[]');
-            let appsListHtml = '';
-            hiddenApps.forEach((app, index) => {
-                appsListHtml += `<div class="hidden-item"><span>${app}</span><span class="delete-item" onclick="removeApp(${index})">✕</span></div>`;
-            });
-            document.getElementById('hidden-apps-list').innerHTML = appsListHtml || '<div style="font-size:11px; opacity:0.6; text-align:center;">لا توجد تطبيقات مخفية</div>';
-
-            let hiddenImgs = JSON.parse(localStorage.getItem('hiddenImgs') || '[]');
-            let imgsListHtml = '';
-            hiddenImgs.forEach((img, index) => {
-                imgsListHtml += `<div class="hidden-img-card"><img src="${img}" alt="صورة مخفية"><div style="position:absolute; top:2px; left:2px; background:rgba(0,0,0,0.6); color:red; padding:1px 5px; font-size:10px; cursor:pointer;" onclick="removeImg(${index})">✕</div></div>`;
-            });
-            document.getElementById('hidden-images-list').innerHTML = imgsListHtml || '<div style="font-size:11px; opacity:0.6; grid-column: span 3; text-align:center;">لا توجد صور مخفية</div>';
-        }
-
-        const audio = document.getElementById('audio-player');
-        function openMusicPlayer() { document.getElementById('music-player-modal').style.display = 'flex'; }
-        function closeMusicPlayer() { document.getElementById('music-player-modal').style.display = 'none'; audio.pause(); }
-        function playSong(title, url, element) {
-            document.querySelectorAll('.song-item').forEach(item => { item.classList.remove('playing'); item.querySelector('span').innerText = '▶️'; });
-            element.classList.add('playing');
-            element.querySelector('span').innerText = '⏸️';
-            audio.src = url;
-            audio.play();
-        }
-    </script>
+renderStep();
+</script>
 </body>
 </html>
