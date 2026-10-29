@@ -3,403 +3,317 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>mlk♕lavi | استوديو البث</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07111c">
+<title>MLK RADIO - اتصال صوتي</title>
 <style>
 :root{
-  --bg:#080b16;--panel:#11182b;--cyan:#35e7ff;
-  --purple:#9d63ff;--text:#f4f6ff;--muted:#aab4cf;
+ --bg:#07111c;--panel:#102131;--green:#42f5a6;
+ --blue:#47c8ff;--text:#eff8ff;--muted:#92aaba;
+ --red:#ff536c;
 }
 *{box-sizing:border-box}
 body{
-  margin:0;background:radial-gradient(circle at top,#182747,var(--bg) 55%);
-  color:var(--text);font-family:Arial,sans-serif;min-height:100vh;
+ margin:0;background:radial-gradient(ellipse at top,#193d4d,transparent 55%),var(--bg);
+ color:var(--text);font-family:Arial,Tahoma,sans-serif;min-height:100vh
 }
-header{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:10px;padding:18px 5%;border-bottom:1px solid #283450;
-  position:sticky;top:0;background:#080b16ed;z-index:5;
-}
-.logo{font-size:23px;font-weight:bold;color:var(--cyan)}
-.status{font-size:12px;color:#a9f5ce}
-main{width:min(1050px,94%);margin:24px auto}
-h1{font-size:27px;margin-bottom:8px}
-h2{font-size:20px}
-p{line-height:1.8}
-.muted{color:var(--muted);font-size:14px}
-.panel{
-  background:linear-gradient(145deg,#151d32,#0e1424);
-  border:1px solid #2a3756;border-radius:20px;
-  padding:18px;margin:17px 0;box-shadow:0 12px 35px #0003;
-}
-.preview{
-  position:relative;background:#03050b;border-radius:16px;
-  overflow:hidden;min-height:230px;display:grid;place-items:center;
-}
-video{width:100%;max-height:480px;object-fit:contain;display:none}
-.placeholder{text-align:center;padding:30px;color:var(--muted)}
-.camera-icon{font-size:55px;margin-bottom:12px}
-button,a.btn{
-  display:inline-block;border:0;border-radius:12px;padding:12px 16px;
-  font-weight:bold;cursor:pointer;text-decoration:none;font-size:14px;
-  transition:.2s;margin:4px 0;
-}
-button:hover,a.btn:hover{transform:translateY(-2px);filter:brightness(1.12)}
-.primary{background:linear-gradient(100deg,var(--cyan),#77baff);color:#06121d}
-.secondary{background:#252f4b;color:white;border:1px solid #394968}
-.purple{background:linear-gradient(100deg,#8e5aff,#c16cff);color:white}
-.danger{background:#502532;color:#ffd8df}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:15px}
-label{display:block;margin:12px 0 7px;color:var(--muted);font-size:14px}
-select,input{
-  width:100%;padding:12px;border-radius:10px;
-  background:#080e1c;border:1px solid #35415f;color:white;
-}
-.qr-wrap{text-align:center}
-#qrcode{background:white;padding:12px;width:max-content;max-width:100%;
-  margin:15px auto;border-radius:12px;min-height:20px}
-#qrcode img,#qrcode canvas{max-width:100%;height:auto!important}
-.notice{
-  border-right:4px solid var(--cyan);padding:12px;
-  background:#102333;border-radius:8px;font-size:14px;line-height:1.8;
-}
-.demo-screen{
-  background:radial-gradient(circle at top,#253960,#080e1d);
-  border:1px solid #354769;border-radius:16px;padding:24px;text-align:center;
-  min-height:260px;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-}
-.demo-icon{font-size:53px;margin-bottom:12px}
-.demo-title{font-size:22px;font-weight:bold}
-.demo-text{color:#d0d9ef;line-height:1.9;max-width:650px}
-.progress{height:6px;background:#27324c;border-radius:9px;overflow:hidden;width:100%;margin-top:15px}
-#progressFill{height:100%;width:12.5%;background:linear-gradient(90deg,var(--cyan),var(--purple));transition:.2s}
-.step-list{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}
-.step-list button{background:#202b44;color:#dfe7ff;padding:9px 11px;font-size:12px}
-.step-list button.active{background:var(--cyan);color:#07111b}
-footer{text-align:center;color:var(--muted);padding:25px;font-size:13px}
-a{color:var(--cyan)}
-.modal{
-  display:none;position:fixed;inset:0;background:#000c;z-index:20;
-  align-items:center;justify-content:center;padding:15px;
-}
-.modal.show{display:flex}
-.modal-box{
-  background:#111a2e;border:1px solid #3b4a6c;border-radius:18px;
-  padding:22px;width:min(550px,100%);max-height:85vh;overflow:auto;
-}
-@media(max-width:550px){
- header{padding:14px 4%}.logo{font-size:18px}
- h1{font-size:23px}.panel{padding:14px}
- .preview{min-height:200px}
-}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{max-width:480px;margin:auto;padding:18px 15px 30px}
+header{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:48px;height:48px;display:grid;place-items:center;
+ border-radius:15px;background:#42f5a615;border:1px solid #42f5a155;font-size:25px}
+h1{font-size:19px;margin:0}
+h1 span{color:var(--green)}
+.sub{font-size:11px;color:var(--muted);margin-top:5px}
+.status{font-size:10px;color:var(--muted)}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#e6b45d;margin-left:5px}
+.dot.on{background:var(--green);box-shadow:0 0 9px var(--green)}
+.banner{margin:20px 0;padding:12px;border-radius:12px;
+ border:1px solid #47c8ff35;background:#47c8ff0b;
+ font-size:12px;line-height:1.8;color:#b9d9eb}
+.card{background:linear-gradient(145deg,#122535,#0c1925);
+ border:1px solid #ffffff13;border-radius:18px;padding:16px;margin-top:13px}
+.kicker{font-size:11px;color:var(--green)}
+h2{font-size:16px;margin:7px 0}
+label{display:block;color:#b5c9d6;font-size:12px;margin:15px 0 8px}
+input{width:100%;background:#07131e;color:white;border:1px solid #ffffff20;
+ border-radius:10px;padding:13px;outline:none}
+input:focus{border-color:var(--green)}
+input::placeholder{color:#607989}
+.ltr{direction:ltr;text-align:center}
+.row{display:flex;gap:8px;align-items:center}
+.row input{flex:1;min-width:0}
+.btn{border:1px solid transparent;border-radius:10px;padding:12px;font-size:12px;font-weight:bold}
+.primary{background:linear-gradient(120deg,#2cda91,#6bffc2);color:#05271a}
+.ghost{background:#ffffff09;color:white;border-color:#ffffff20}
+.secondary{background:#47c8ff0d;color:#9ce2ff;border-color:#47c8ff45}
+.danger{background:#ff536c15;color:#ff8b9b;border-color:#ff536c55}
+.full{width:100%;margin-top:12px}
+.hint{font-size:11px;color:var(--muted);line-height:1.8}
+.identity{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px}
+.serial{font-size:29px;letter-spacing:3px;direction:ltr;color:var(--green);margin-top:8px}
+.radio{text-align:center}
+.visual{width:165px;height:165px;margin:15px auto;position:relative;display:grid;place-items:center}
+.ring{position:absolute;inset:0;border:1px solid #42f5a135;border-radius:50%}
+.ring.two{inset:14px;border-color:#42f5a155}
+.core{width:105px;height:105px;border-radius:50%;display:grid;place-items:center;
+ font-size:40px;background:radial-gradient(circle at 35% 25%,#276452,#102a32);
+ border:2px solid #42f5a177;box-shadow:0 0 25px #42f5a11a}
+.radio.active .ring.one{animation:pulse 1.4s infinite}
+@keyframes pulse{0%{transform:scale(.85);opacity:1}100%{transform:scale(1.18);opacity:0}}
+.ptt{width:140px;height:140px;border-radius:50%;border:5px solid #ffffff20;
+ background:linear-gradient(145deg,#39e99b,#0da66b);color:#05271a;
+ display:flex;flex-direction:column;justify-content:center;align-items:center;
+ gap:7px;margin:18px auto 12px;touch-action:none;user-select:none}
+.ptt span{font-size:27px}.ptt b{font-size:14px}.ptt small{font-size:10px}
+.ptt.talking{background:linear-gradient(145deg,#ff7589,#d52b4b);color:white}
+button:disabled{opacity:.4;cursor:not-allowed}
+.contacts{display:grid;gap:8px;margin-top:12px}
+.contact{display:flex;align-items:center;gap:9px;padding:10px;
+ border:1px solid #ffffff12;border-radius:12px}
+.avatar{width:38px;height:38px;border-radius:12px;background:#47c8ff18;
+ display:grid;place-items:center}
+.info{flex:1;min-width:0}.name{font-size:13px;font-weight:bold}
+.cid{font-size:11px;color:var(--muted);direction:ltr;text-align:right;margin-top:5px}
+.empty{text-align:center;color:var(--muted);font-size:12px;padding:16px}
+footer{text-align:center;color:#637e90;font-size:10px;margin-top:24px;line-height:2}
+dialog{background:#102131;color:white;border:1px solid #42f5a155;
+ border-radius:18px;max-width:350px;width:90%;text-align:center;padding:22px}
+dialog::backdrop{background:#000b}
 </style>
 </head>
 <body>
-
+<main class="app">
 <header>
-  <div class="logo">♕ mlk♕lavi</div>
-  <div class="status" id="status">● الكاميرا متوقفة</div>
-  <button class="secondary" id="helpBtn">❔ المساعدة</button>
+ <div class="brand">
+  <div class="logo">📡</div>
+  <div><h1>MLK <span>RADIO</span></h1><div class="sub">شبكة الاتصال الصوتي</div></div>
+ </div>
+ <div class="status"><i class="dot" id="dot"></i><span id="status">غير متصل</span></div>
 </header>
 
-<main>
-  <h1>استوديو البث الذكي 👑</h1>
-  <p class="muted">كاميرتك، إعداداتك، ودليل تعليمي يساعدك على البدء.</p>
-
-  <section class="panel">
-    <h2>📹 معاينة الكاميرا</h2>
-    <div class="preview">
-      <video id="video" autoplay playsinline muted></video>
-      <div class="placeholder" id="placeholder">
-        <div class="camera-icon">📷</div>
-        <strong>الكاميرا جاهزة للتشغيل</strong>
-        <p class="muted">اضغط على تشغيل الكاميرا واسمح بالوصول إليها.</p>
-      </div>
-    </div>
-    <div class="actions">
-      <button class="primary" id="startBtn">▶ تشغيل الكاميرا</button>
-      <button class="secondary" id="switchBtn">🔄 تبديل الكاميرا</button>
-      <button class="danger" id="stopBtn">■ إيقاف</button>
-    </div>
-    <p class="muted" id="cameraMessage">قد تحتاج إلى فتح الصفحة عبر HTTPS للسماح بالكاميرا.</p>
-  </section>
-
-  <div class="grid">
-    <section class="panel">
-      <h2>⚙️ إعدادات التطبيق</h2>
-      <label for="mode">وضع الاستخدام</label>
-      <select id="mode">
-        <option value="camera">معاينة الكاميرا</option>
-        <option value="obs">استخدام الرابط مع OBS</option>
-      </select>
-      <label for="quality">جودة الكاميرا</label>
-      <select id="quality">
-        <option value="480">480p - توفير البيانات</option>
-        <option value="720" selected>720p - جودة جيدة</option>
-        <option value="1080">1080p - جودة عالية</option>
-      </select>
-      <div class="actions">
-        <button class="purple" id="applyBtn">تطبيق الإعدادات</button>
-      </div>
-      <p class="muted" id="settingsMessage">اختر الإعدادات المناسبة لك.</p>
-    </section>
-
-    <section class="panel qr-wrap">
-      <h2>🔗 مشاركة رابط الصفحة</h2>
-      <p class="muted">أنشئ رمز QR لفتح رابط هذه الصفحة على جهاز آخر.</p>
-      <div id="qrcode"></div>
-      <div class="actions" style="justify-content:center">
-        <button class="primary" id="makeQr">إنشاء QR</button>
-        <button class="secondary" id="copyBtn">نسخ الرابط</button>
-        <button class="secondary" id="shareBtn">مشاركة</button>
-      </div>
-      <p class="muted" id="shareMessage">يجب نشر الصفحة على رابط متاح حتى يستطيع هاتف آخر فتحها.</p>
-    </section>
-  </div>
-
-  <section class="panel" id="tutorial">
-    <h2>🎬 شرح التطبيق من الصفر للمبتدئين</h2>
-    <p class="muted">اتبع الخطوات واحدة تلو الأخرى. اضغط «التالي» للانتقال إلى الخطوة التالية.</p>
-    <div class="demo-screen">
-      <div class="demo-icon" id="demoIcon">👑</div>
-      <div class="demo-title" id="demoTitle">مرحبًا بك</div>
-      <p class="demo-text" id="demoText"></p>
-      <div class="progress"><div id="progressFill"></div></div>
-      <p class="muted" id="demoCount"></p>
-    </div>
-    <div class="actions" style="justify-content:center">
-      <button class="secondary" id="prevDemo">❮ السابق</button>
-      <button class="primary" id="nextDemo">التالي ❯</button>
-    </div>
-    <div class="step-list" id="stepList"></div>
-  </section>
-
-  <section class="panel">
-    <h2>📌 معلومات مهمة</h2>
-    <div class="notice">
-      هذا الإصدار يعرض الكاميرا على الجهاز نفسه، ويولّد رمز QR لرابط الصفحة.
-      <strong>لا يرسل الفيديو تلقائيًا إلى هاتف آخر ولا يربط البث فعليًا مع OBS.</strong>
-      تحتاج إلى إضافة تقنية بث مثل WebRTC أو خادم بث لبناء هذه الوظائف.
-    </div>
-  </section>
-</main>
-
-<footer>
-  صنع بكل فخر ♕ mlk♕lavi<br>
-  المطور: mlh♕alhm | ملك♕الهم
-</footer>
-
-<div class="modal" id="helpOverlay">
-  <div class="modal-box">
-    <h2>❔ مركز المساعدة</h2>
-    <p>1. اضغط على «تشغيل الكاميرا» واسمح للمتصفح باستخدام الكاميرا.</p>
-    <p>2. استخدم «تبديل الكاميرا» للتنقل بين الأمامية والخلفية، إذا كان جهازك يدعم ذلك.</p>
-    <p>3. اختر الجودة ثم اضغط «تطبيق الإعدادات». قد تحتاج إلى إعادة تشغيل الكاميرا لتطبيق الجودة.</p>
-    <p>4. رمز QR يفتح رابط الصفحة فقط؛ لا يرسل الفيديو وحده.</p>
-    <p>5. <strong>ما هو OBS Studio؟</strong> برنامج مجاني للكمبيوتر يساعدك على تسجيل الشاشة وتجهيز البث المباشر وإضافة مصادر الفيديو والصوت.</p>
-    <p>6. تنزيل OBS من الموقع الرسمي: <a href="https://obsproject.com/" target="_blank" rel="noopener">obsproject.com</a></p>
-    <p>7. هذا التطبيق ليس متصلًا تلقائيًا بـ OBS. ستحتاج إلى إعداد مصدر متوافق مع OBS أو تطوير ميزة البث أولًا.</p>
-    <button class="primary" id="closeHelp">فهمت، إغلاق</button>
-    <button class="secondary" id="closeX">رجوع</button>
-  </div>
+<div class="banner">
+ 📡 جهاز لاسلكي رقمي — اتصل بالأصدقاء عبر الإنترنت باستخدام الصوت الحقيقي.
+ يتطلب تشغيل الخادم وإعداد HTTPS للسماح بالميكروفون.
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<section class="card">
+ <div class="kicker">هويتك الرقمية</div>
+ <div class="identity">
+  <div><div class="sub">رقمك التسلسلي</div><div class="serial" id="myId">--------</div></div>
+  <button class="btn ghost" id="copy">نسخ الرقم</button>
+ </div>
+ <p class="hint">شارك رقمك مع الشخص الذي تريد الاتصال به.</p>
+</section>
+
+<section class="card">
+ <div class="kicker">اتصال مباشر</div><h2>من تريد الاتصال به؟</h2>
+ <label for="target">الرقم التسلسلي للشخص</label>
+ <div class="row">
+  <input id="target" class="ltr" maxlength="8" inputmode="numeric" placeholder="12345678">
+  <button class="btn primary" id="call">اتصال</button>
+ </div>
+ <p class="hint" id="message">يجب أن يكون الشخص الآخر متصلًا بالموقع.</p>
+</section>
+
+<section class="card radio" id="radio">
+ <div class="kicker">جهاز التحدث</div>
+ <div class="visual"><div class="ring one"></div><div class="ring two"></div>
+  <div class="core">🎙️</div></div>
+ <h2 id="radioTitle">جاهز للاتصال</h2>
+ <p class="hint" id="radioSub">اتصل بشخص أولًا</p>
+ <button id="ptt" class="ptt" disabled>
+  <span>🎙️</span><b>اضغط للتحدث</b><small>اترك الزر لإيقاف الصوت</small>
+ </button>
+ <button class="btn danger" id="hangup" disabled>إنهاء الاتصال</button>
+ <p class="hint">يُرسل الميكروفون الصوت فقط أثناء الضغط على زر التحدث.</p>
+</section>
+
+<section class="card">
+ <div class="kicker">دفتر الأرقام</div><h2>جهات الاتصال</h2>
+ <label for="personName">اسم الشخص</label>
+ <input id="personName" maxlength="35" placeholder="اسم الصديق">
+ <label for="personId">الرقم التسلسلي</label>
+ <input id="personId" class="ltr" maxlength="8" inputmode="numeric" placeholder="8 أرقام">
+ <button class="btn secondary full" id="add">＋ حفظ جهة الاتصال</button>
+ <div id="contacts" class="contacts"></div>
+</section>
+<footer>MLK RADIO · نسخة ويب أولية<br>لا تستخدمه للطوارئ</footer>
+</main>
+
+<dialog id="incoming">
+ <div style="font-size:35px">📡</div><h2>اتصال وارد</h2>
+ <p>المستخدم <b id="caller"></b> يريد التحدث معك.</p>
+ <div class="row"><button class="btn ghost" id="decline">رفض</button>
+ <button class="btn primary" id="accept">قبول الاتصال</button></div>
+</dialog>
+
+<audio id="remoteAudio" autoplay playsinline></audio>
+<script src="/socket.io/socket.io.js"></script>
 <script>
-const $ = id => document.getElementById(id);
+/*
+  هذا الملف يحتاج إلى server.js من المشروع.
+  فتحه كملف منفرد لن ينشئ خادم اتصال صوتي.
+*/
+const $=id=>document.getElementById(id);
+const socket=io();
+let myId="", pc=null, stream=null, peer="", incoming=null;
+let contacts=[];
+try{contacts=JSON.parse(localStorage.getItem("mlk_contacts")||"[]")}catch{}
 
-let stream = null;
-let facingMode = "user";
-let currentStep = 0;
-
-const demoSteps = [
-  {
-    icon:"👑",title:"1. مرحبًا بك في mlk♕lavi",
-    text:"هذا تطبيق تجريبي لمعاينة الكاميرا وإعداد بعض الخيارات. استخدم أزرار التشغيل والإيقاف، ثم تعرّف على المشاركة وOBS."
-  },
-  {
-    icon:"📷",title:"2. تشغيل الكاميرا",
-    text:"اضغط على زر تشغيل الكاميرا. عندما تظهر رسالة طلب الإذن، اختر السماح. إذا لم تعمل الكاميرا، افتح الصفحة عبر HTTPS وتأكد من أذونات المتصفح."
-  },
-  {
-    icon:"🔄",title:"3. تبديل الكاميرا والجودة",
-    text:"اضغط على تبديل الكاميرا للتنقل بين الأمامية والخلفية. اختر 480p أو 720p أو 1080p. قد لا يدعم هاتفك كل الخيارات، وستُعاد محاولة تشغيل الكاميرا بالجودة الجديدة."
-  },
-  {
-    icon:"🔗",title:"4. مشاركة الرابط وQR",
-    text:"أنشئ رمز QR أو انسخ رابط الصفحة وشاركه. يجب أن تكون الصفحة منشورة على الإنترنت حتى يفتحها جهاز آخر. تذكر: فتح الرابط على هاتف آخر لا ينقل إليه فيديو الكاميرا."
-  },
-  {
-    icon:"🖥️",title:"5. ما هو OBS Studio؟",
-    text:"OBS Studio برنامج مجاني للكمبيوتر يستخدم لتسجيل الشاشة وتجهيز البث المباشر. يمكنك إضافة مصادر مثل كاميرا الويب والصوت والصور ومشاركة هذه المصادر في البث. الموقع الرسمي: obsproject.com"
-  },
-  {
-    icon:"🛠️",title:"6. كيف تستخدم OBS؟",
-    text:"نزّل OBS من موقعه الرسمي وثبّته على الكمبيوتر. افتحه، ثم من قسم Sources اضغط + لإضافة مصدر مثل Video Capture Device للكاميرا أو Window Capture لنافذة برنامج. افحص المعاينة والصوت قبل البث. هذا التطبيق لا يرسل الفيديو إلى OBS تلقائيًا."
-  },
-  {
-    icon:"📡",title:"7. كيف تبدأ البث المباشر؟",
-    text:"في OBS يمكنك إعداد منصة البث التي تستخدمها، ثم اتباع تعليمات المنصة لإدخال بيانات البث المطلوبة. لا تشارك مفتاح البث مع أي شخص. قد تحتاج إلى استيفاء شروط المنصة قبل السماح بالبث."
-  },
-  {
-    icon:"⚠️",title:"8. ما الذي لا يفعله هذا الإصدار؟",
-    text:"هذا الإصدار يشغّل كاميرا الجهاز محليًا وينشئ QR للرابط. لا يحتوي بعد على اتصال فيديو مباشر بين هاتفين، ولا على إرسال حقيقي إلى OBS أو TikTok أو Facebook. يلزم تطوير نظام بث واتصال مناسب لإضافة ذلك."
+const rtcConfig={iceServers:[
+ {urls:"stun:stun.l.google.com:19302"}
+ // أضف TURN server موثوقًا عند النشر لتحسين الاتصال خلف بعض الشبكات.
+]};
+function status(t,ok=false){$("status").textContent=t;$("dot").classList.toggle("on",ok)}
+function message(t){$("message").textContent=t}
+function radio(t,s){$("radioTitle").textContent=t;$("radioSub").textContent=s}
+function drawContacts(){
+ const box=$("contacts");box.replaceChildren();
+ if(!contacts.length){const e=document.createElement("div");e.className="empty";e.textContent="لا توجد جهات اتصال محفوظة.";box.append(e);return}
+ contacts.forEach(c=>{
+  const row=document.createElement("div");row.className="contact";
+  const av=document.createElement("div");av.className="avatar";av.textContent="👤";
+  const info=document.createElement("div");info.className="info";
+  const name=document.createElement("div");name.className="name";name.textContent=c.name;
+  const id=document.createElement("div");id.className="cid";id.textContent=c.id;
+  info.append(name,id);
+  const call=document.createElement("button");call.className="btn secondary";call.textContent="اتصال";
+  call.onclick=()=>{$("target").value=c.id;startCall(c.id)};
+  const del=document.createElement("button");del.className="btn ghost";del.textContent="×";
+  del.onclick=()=>{contacts=contacts.filter(x=>x.id!==c.id);saveContacts();drawContacts()};
+  row.append(av,info,call,del);box.append(row);
+ });
+}
+function saveContacts(){localStorage.setItem("mlk_contacts",JSON.stringify(contacts))}
+async function microphone(){
+ if(!navigator.mediaDevices?.getUserMedia)throw Error("الميكروفون يحتاج إلى HTTPS أو localhost.");
+ if(!stream){
+  stream=await navigator.mediaDevices.getUserMedia({audio:{
+   echoCancellation:true,noiseSuppression:true,autoGainControl:true},video:false});
+  stream.getAudioTracks().forEach(t=>t.enabled=false);
+ }
+ return stream;
+}
+async function makePeer(target){
+ pc=new RTCPeerConnection(rtcConfig);
+ const s=await microphone();
+ s.getTracks().forEach(t=>pc.addTrack(t,s));
+ pc.onicecandidate=e=>{if(e.candidate)socket.emit("ice-candidate",{target,candidate:e.candidate})};
+ pc.ontrack=e=>{$("remoteAudio").srcObject=e.streams[0];$("remoteAudio").play().catch(()=>message("المس الشاشة لتشغيل الصوت الوارد."))};
+ pc.onconnectionstatechange=()=>{
+  if(!pc)return;
+  if(pc.connectionState==="connected"){
+   peer=target;$("ptt").disabled=false;$("hangup").disabled=false;
+   radio("متصل الآن","رقم الطرف الآخر: "+target);message("تم ربط الصوت الحقيقي.");
   }
-];
-
-function setStatus(text){
-  $("status").textContent = text;
+  if(["failed","closed"].includes(pc.connectionState))endCall(false,"انقطع الاتصال. تحقق من الشبكة وTURN.");
+ };
+ return pc;
 }
-
-function getConstraints(){
-  const height = Number($("quality").value);
-  return {
-    audio:false,
-    video:{
-      facingMode:{ideal:facingMode},
-      width:{ideal:height === 480 ? 854 : height === 720 ? 1280 : 1920},
-      height:{ideal:height}
-    }
-  };
+async function startCall(target){
+ if(!/^\d{8}$/.test(target))return alert("أدخل رقمًا من 8 أرقام.");
+ if(target===myId)return alert("لا يمكنك الاتصال بنفسك.");
+ if(!socket.connected)return alert("خادم الإشارات غير متصل.");
+ if(pc)return alert("أنه الاتصال الحالي أولًا.");
+ try{
+  peer=target;message("جارٍ طلب إذن الميكروفون...");
+  await makePeer(target);
+  const offer=await pc.createOffer();
+  await pc.setLocalDescription(offer);
+  socket.emit("call-user",{target,offer:pc.localDescription});
+  radio("جارٍ الاتصال...", "في انتظار قبول الطرف الآخر");
+  message("تم إرسال طلب الاتصال.");
+ }catch(e){endCall(false,"تعذر الاتصال: "+e.message);alert(e.message)}
 }
-
-async function startCamera(){
-  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
-    $("cameraMessage").textContent =
-      "المتصفح لا يدعم الكاميرا هنا. افتح الصفحة عبر HTTPS في متصفح حديث.";
-    return;
-  }
-
-  stopCamera(false);
-  $("cameraMessage").textContent = "جارٍ تشغيل الكاميرا...";
-  try{
-    stream = await navigator.mediaDevices.getUserMedia(getConstraints());
-    $("video").srcObject = stream;
-    $("video").style.display = "block";
-    $("placeholder").style.display = "none";
-    setStatus("● الكاميرا تعمل");
-    $("cameraMessage").textContent = "تم تشغيل الكاميرا بنجاح.";
-  }catch(error){
-    setStatus("● الكاميرا متوقفة");
-    $("cameraMessage").textContent =
-      "تعذر تشغيل الكاميرا. تحقق من الإذن، ومن أن الصفحة تعمل عبر HTTPS، ثم حاول مجددًا.";
-  }
+async function acceptCall(){
+ if(!incoming)return;
+ const data=incoming;
+ try{
+  peer=data.from;
+  await makePeer(data.from);
+  await pc.setRemoteDescription(new RTCSessionDescription(data.offer));
+  const answer=await pc.createAnswer();
+  await pc.setLocalDescription(answer);
+  socket.emit("call-answer",{target:data.from,answer:pc.localDescription});
+  incoming=null;$("incoming").close();
+  radio("جارٍ ربط الصوت...","مع الرقم: "+peer);
+ }catch(e){endCall(false,e.message);alert(e.message)}
 }
-
-function stopCamera(updateMessage=true){
-  if(stream){
-    stream.getTracks().forEach(track=>track.stop());
-    stream = null;
-  }
-  $("video").srcObject = null;
-  $("video").style.display = "none";
-  $("placeholder").style.display = "block";
-  setStatus("● الكاميرا متوقفة");
-  if(updateMessage) $("cameraMessage").textContent = "تم إيقاف الكاميرا.";
+function stopTalking(){
+ if(stream)stream.getAudioTracks().forEach(t=>t.enabled=false);
+ $("ptt").classList.remove("talking");$("radio").classList.remove("active");
+ if(pc&&peer)radio("متصل الآن","رقم الطرف الآخر: "+peer);
 }
-
-async function switchCamera(){
-  facingMode = facingMode === "user" ? "environment" : "user";
-  if(stream) await startCamera();
-  else $("cameraMessage").textContent =
-    "تم اختيار الكاميرا " + (facingMode === "user" ? "الأمامية" : "الخلفية") + ". اضغط تشغيل الكاميرا.";
+async function startTalking(e){
+ e.preventDefault();
+ if(!pc||pc.connectionState!=="connected"){message("انتظر حتى يكتمل اتصال الصوت.");return}
+ try{
+  await microphone();
+  stream.getAudioTracks().forEach(t=>t.enabled=true);
+  $("ptt").classList.add("talking");$("radio").classList.add("active");
+  radio("أنت تتحدث الآن","اترك الزر لإيقاف إرسال الصوت");
+ }catch(e){alert("تعذر تشغيل الميكروفون: "+e.message)}
 }
-
-$("startBtn").addEventListener("click",startCamera);
-$("stopBtn").addEventListener("click",()=>stopCamera());
-$("switchBtn").addEventListener("click",switchCamera);
-
-$("applyBtn").addEventListener("click",async()=>{
-  $("settingsMessage").textContent =
-    "تم اختيار جودة " + $("quality").value + "p ووضع " +
-    ($("mode").value === "obs" ? "OBS" : "الكاميرا") + ".";
-  if(stream) await startCamera();
+function endCall(notify=true,text="تم إنهاء الاتصال."){
+ if(notify&&peer)socket.emit("hangup",{target:peer});
+ stopTalking();
+ if(pc){pc.onicecandidate=null;pc.close()}
+ pc=null;peer="";
+ if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}
+ $("remoteAudio").srcObject=null;
+ $("ptt").disabled=true;$("hangup").disabled=true;
+ $("radio").classList.remove("active");
+ radio("جاهز للاتصال","اتصل بشخص أولًا");message(text);
+}
+socket.on("connect",()=>status("متصل بالخادم",true));
+socket.on("disconnect",()=>{status("انقطع الاتصال",false);if(pc)endCall(false,"انقطع اتصال الخادم.")});
+socket.on("registered",d=>{myId=d.serial;$("myId").textContent=myId});
+socket.on("online-count",n=>{});
+socket.on("call-error",message);
+socket.on("incoming-call",d=>{
+ if(pc){socket.emit("hangup",{target:d.from});return}
+ incoming=d;$("caller").textContent=d.from;$("incoming").showModal();
 });
-
-function makeQR(){
-  const box = $("qrcode");
-  box.innerHTML = "";
-  const url = location.href;
-  if(!/^https?:$/.test(location.protocol)){
-    $("shareMessage").textContent =
-      "انشر ملف HTML على موقع HTTPS أولًا، ثم افتح الرابط المنشور لإنشاء QR صالح للمشاركة.";
-    return;
-  }
-  if(typeof QRCode === "undefined"){
-    $("shareMessage").textContent = "تعذر تحميل مولّد QR. تحقق من اتصال الإنترنت.";
-    return;
-  }
-  new QRCode(box,{text:url,width:180,height:180});
-  $("shareMessage").textContent = "هذا الرمز يفتح رابط الصفحة فقط.";
-}
-$("makeQr").addEventListener("click",makeQR);
-
-$("copyBtn").addEventListener("click",async()=>{
-  try{
-    await navigator.clipboard.writeText(location.href);
-    $("shareMessage").textContent = "تم نسخ رابط الصفحة.";
-  }catch(e){
-    $("shareMessage").textContent =
-      "لم يستطع المتصفح النسخ تلقائيًا. انسخ الرابط من شريط العنوان.";
-  }
+socket.on("call-answered",async d=>{
+ if(!pc||d.from!==peer)return;
+ try{await pc.setRemoteDescription(new RTCSessionDescription(d.answer))}
+ catch(e){endCall(false,"تعذر إكمال الاتصال: "+e.message)}
 });
-
-$("shareBtn").addEventListener("click",async()=>{
-  if(navigator.share){
-    try{
-      await navigator.share({title:"mlk♕lavi",text:"افتح تطبيق mlk♕lavi",url:location.href});
-    }catch(e){}
-  }else{
-    $("shareMessage").textContent = "استخدم زر نسخ الرابط لمشاركته.";
-  }
+socket.on("ice-candidate",async d=>{
+ if(!pc||d.from!==peer)return;
+ try{await pc.addIceCandidate(new RTCIceCandidate(d.candidate))}catch(e){console.warn(e)}
 });
+socket.on("peer-hangup",d=>{if(d.from===peer)endCall(false,"أنهى الطرف الآخر الاتصال.")});
+socket.on("user-offline",d=>{if(d.serial===peer)endCall(false,"غادر الطرف الآخر الموقع.")});
 
-function renderStep(){
-  const step = demoSteps[currentStep];
-  $("demoIcon").textContent = step.icon;
-  $("demoTitle").textContent = step.title;
-  $("demoText").textContent = step.text;
-  $("demoCount").textContent =
-    "الخطوة " + (currentStep+1) + " من " + demoSteps.length;
-  $("progressFill").style.width =
-    ((currentStep+1)/demoSteps.length*100) + "%";
-  $("prevDemo").disabled = currentStep === 0;
-  $("nextDemo").textContent =
-    currentStep === demoSteps.length-1 ? "إعادة الشرح ↻" : "التالي ❯";
-
-  const list = $("stepList");
-  list.innerHTML = "";
-  demoSteps.forEach((item,index)=>{
-    const btn = document.createElement("button");
-    btn.textContent = (index+1) + ". " + item.title.split(". ")[1];
-    if(index === currentStep) btn.classList.add("active");
-    btn.addEventListener("click",()=>{
-      currentStep = index;
-      renderStep();
-    });
-    list.appendChild(btn);
-  });
-}
-$("prevDemo").addEventListener("click",()=>{
-  if(currentStep>0){currentStep--;renderStep();}
-});
-$("nextDemo").addEventListener("click",()=>{
-  currentStep = currentStep === demoSteps.length-1 ? 0 : currentStep+1;
-  renderStep();
-});
-
-function openHelp(){$("helpOverlay").classList.add("show");}
-function closeHelp(){$("helpOverlay").classList.remove("show");}
-$("helpBtn").addEventListener("click",openHelp);
-$("closeHelp").addEventListener("click",closeHelp);
-$("closeX").addEventListener("click",closeHelp);
-$("helpOverlay").addEventListener("click",e=>{
-  if(e.target === $("helpOverlay")) closeHelp();
-});
-
-renderStep();
+$("call").onclick=()=>startCall($("target").value.trim());
+$("copy").onclick=async()=>{
+ try{await navigator.clipboard.writeText(myId);$("copy").textContent="تم النسخ ✓"}
+ catch{prompt("انسخ رقمك:",myId)}
+};
+$("add").onclick=()=>{
+ const name=$("personName").value.trim(),id=$("personId").value.trim();
+ if(!name)return alert("اكتب اسم الشخص.");
+ if(!/^\d{8}$/.test(id))return alert("أدخل رقمًا من 8 أرقام.");
+ if(id===myId)return alert("هذا رقمك الشخصي.");
+ if(contacts.some(c=>c.id===id))return alert("هذا الرقم محفوظ.");
+ contacts.push({name,id});saveContacts();drawContacts();
+ $("personName").value="";$("personId").value="";
+};
+$("accept").onclick=acceptCall;
+$("decline").onclick=()=>{
+ if(incoming)socket.emit("hangup",{target:incoming.from});
+ incoming=null;$("incoming").close();
+};
+$("hangup").onclick=()=>endCall(true);
+$("ptt").addEventListener("pointerdown",startTalking);
+["pointerup","pointercancel","pointerleave","lostpointercapture"].forEach(ev=>$("ptt").addEventListener(ev,stopTalking));
+window.addEventListener("blur",stopTalking);
+document.addEventListener("visibilitychange",()=>{if(document.hidden)stopTalking()});
+drawContacts();
 </script>
 </body>
 </html>
